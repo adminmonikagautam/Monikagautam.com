@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMDb Clone</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #121212; color: white; }
+        .movie-card { background-color: #1e1e1e; border-radius: 8px; padding: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="container mt-4">
+        <h1 class="text-center">IMDb Clone</h1>
+        
+        <input type="text" id="searchBox" class="form-control my-3" placeholder="Search Movies..." onkeyup="searchMovies()">
+
+        <div id="movieList" class="row">
+            <!-- Movies will be inserted here -->
+        </div>
+    </div>
+
+    <script>
+        const movies = [
+            { title: "Inception", year: 2010, poster: "https://image.tmdb.org/t/p/w500/qmDpIHrmpJINaRKAfWQfftjCdyi.jpg" },
+            { title: "The Dark Knight", year: 2008, poster: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg" },
+            { title: "Interstellar", year: 2014, poster: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg" }
+        ];
+
+        function displayMovies(movieArray) {
+            let movieList = document.getElementById("movieList");
+            movieList.innerHTML = "";
+            movieArray.forEach(movie => {
+                movieList.innerHTML += `
+                    <div class="col-md-4">
+                        <div class="movie-card text-center">
+                            <img src="${movie.poster}" class="img-fluid">
+                            <h5>${movie.title} (${movie.year})</h5>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function searchMovies() {
+            let query = document.getElementById("searchBox").value.toLowerCase();
+            let filteredMovies = movies.filter(movie => movie.title.toLowerCase().includes(query));
+            displayMovies(filteredMovies);
+        }
+
+        displayMovies(movies);
+    </script>
+
+</body>
+</html>
