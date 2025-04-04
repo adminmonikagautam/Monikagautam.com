@@ -50,3 +50,18 @@ document.addEventListener("DOMContentLoaded", () => {
     movieGrid.appendChild(card);
   });
 });
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("input", function () {
+  const query = this.value.toLowerCase();
+  const cards = document.querySelectorAll(".movie-card");
+
+  cards.forEach(card => {
+    const title = card.querySelector(".movie-title").textContent.toLowerCase();
+    if (title.includes(query)) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+});
