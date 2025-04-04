@@ -1,40 +1,36 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My MovieDB</title>
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My MovieDB</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <div class="logo">MyMovieDB</div>
-    <input type="text" placeholder="Search movies..." id="searchInput" />
-  </header>
+    <header>
+        <div class="logo">MyMovieDB</div>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search movies...">
+        </div>
+    </header>
 
-  <section class="hero">
-    <img src="images/featured.jpg" alt="Featured Movie" />
-    <div class="hero-text">
-      <h1>Featured Movie</h1>
-      <p>Don't miss the blockbuster of the year!</p>
-    </div>
-  </section>
+    <section class="hero">
+        <img src="images/featured.jpg" alt="Featured Movie">
+        <div class="hero-text">
+            <h1>Featured Movie</h1>
+            <p>Don't miss the blockbuster of the year!</p>
+        </div>
+    </section>
 
-  <section class="section" id="topRated">
-    <h2>Top Rated Movies</h2>
-    <div class="movie-grid" id="topRatedMovies"></div>
-  </section>
+    <section class="section" id="topRated">
+        <h2>Top Rated Movies</h2>
+        <div class="movie-grid" id="topRatedMovies"></div>
+    </section>
 
-  <section class="section" id="trending">
-    <h2>Trending Now</h2>
-    <div class="movie-grid" id="trendingMovies"></div>
-  </section>
-
-  <section class="section" id="upcoming">
-    <h2>Upcoming Movies</h2>
-    <div class="movie-grid" id="upcomingMovies"></div>
-  </section>
-
-  <script src="script.js"></script>
+    <section class="section" id="trending">
+        <h2>Trending Now</h2>
+        <div class="movie-grid" id="trendingMovies"></div>
+    </section>
 </body>
 </html>
