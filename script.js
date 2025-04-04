@@ -1,79 +1,67 @@
 const apiKey = "71a0cb256ce6112edd9d3fd192bab592";
-let page = 1;
-let currentGenre = "";
+const moviesContainer = document.getElementById("moviesContainer");
+const searchForm = document.getElementById("searchForm");
+const searchInput = document.getElementById("searchInput");
 
-document.getElementById("loadMore").addEventListener("click", () => {
-  page++;
-  fetchMovies();
+document.addEventListener("DOMContentLoaded", () => {
+    fetchTrendingMovies();
 });
 
-document.getElementById("search").addEventListener("input", (e) => {
-  const query = e.target.value;
-  page = 1;
-  if (query) {
-    fetchSearchResults(query);
-  } else {
-    fetchMovies();
-  }
-});
-
-function fetchMovies() {
-  let url = `https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}&page=${page}`;
-  if (currentGenre) {
-    url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${currentGenre}&page=${page}`;
-  }
-
-  fetch(url)
-    .then(res => res.json())
-    .then(data => {
-      displayMovies(data.results);
+if (searchForm) {
+    searchForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const query = searchInput.value.trim();
+        if (query !== "") {
+            searchMovies(query);
+        }
     });
 }
 
-function fetchSearchResults(query) {
-  fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}`)
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById("movieList").innerHTML = "";
-      displayMovies(data.results);
-    });
+async function fetchTrendingMovies() {
+    try {
+        const res = await fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}`);
+        const data = await res.json();
+        const sorted = data.results.sort((a, b) => b.vote_average - a.vote_average);
+        displayMovies(sorted);
+    } catch (err) {
+        console.error("Error fetching trending movies:", err);
+    }
+}
+
+async function searchMovies(query) {
+    try {
+        const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}`);
+        const data = await res.json();
+        displayMovies(data.results);
+    } catch (err) {
+        console.error("Error searching movies:", err);
+    }
 }
 
 function displayMovies(movies) {
-  const list = document.getElementById("movieList");
-  movies.forEach(movie => {
-    const div = document.createElement("div");
-    div.className = "movie";
-    div.innerHTML = `
-      <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" />
-      <h3>${movie.title}</h3>
-    `;
-    div.onclick = () => {
-      localStorage.setItem("movieId", movie.id);
-      window.location.href = "movie.html";
-    };
-    list.appendChild(div);
-  });
-}
+    moviesContainer.innerHTML = "";
 
-function fetchGenres() {
-  fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}`)
-    .then(res => res.json())
-    .then(data => {
-      const genreDiv = document.getElementById("genreFilter");
-      data.genres.forEach(genre => {
-        const btn = document.createElement("button");
-        btn.innerText = genre.name;
-        btn.onclick = () => {
-          currentGenre = genre.id;
-          page = 1;
-          document.getElementById("movieList").innerHTML = "";
-          fetchMovies();
-        };
-        genreDiv.appendChild(btn);
-      });
+    if (!movies.length) {
+        moviesContainer.innerHTML = "<p>No movies found.</p>";
+        return;
+    }
+
+    movies.forEach((movie) => {
+        const card = document.createElement("div");
+        card.classList.add("movie-card");
+
+        const image = movie.poster_path
+            ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+            : "https://via.placeholder.com/500x750?text=No+Image";
+
+        card.innerHTML = `
+            <img src="${image}" alt="${movie.title}">
+            <h3>${movie.title}</h3>
+            <p>⭐ Rating: ${movie.vote_average.toFixed(1)} / 10</p>
+            <p>🔥 Popularity: ${Math.round(movie.popularity)}</p>
+            <p>📅 Release: ${movie.release_date || "N/A"}</p>
+        `;
+
+        moviesContainer.appendChild(card);
     });
 }
-
-fetchGenres();
-fetchMovies();
