@@ -1,57 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMDb Clone</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { background-color: #121212; color: white; }
-        .movie-card { background-color: #1e1e1e; border-radius: 8px; padding: 10px; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monika Gautam Movies</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-
-    <div class="container mt-4">
-        <h1 class="text-center">IMDb Clone</h1>
-        
-        <input type="text" id="searchBox" class="form-control my-3" placeholder="Search Movies..." onkeyup="searchMovies()">
-
-        <div id="movieList" class="row">
-            <!-- Movies will be inserted here -->
-        </div>
+  <header>
+    <div class="container">
+      <h1>MonikaGautam.com</h1>
+      <input type="text" id="search" placeholder="Search movies..." />
     </div>
+  </header>
 
-    <script>
-        const movies = [
-            { title: "Inception", year: 2010, poster: "https://image.tmdb.org/t/p/w500/qmDpIHrmpJINaRKAfWQfftjCdyi.jpg" },
-            { title: "The Dark Knight", year: 2008, poster: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg" },
-            { title: "Interstellar", year: 2014, poster: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg" }
-        ];
+  <main class="container" id="movie-list">
+    <!-- Movie cards will be injected here -->
+  </main>
 
-        function displayMovies(movieArray) {
-            let movieList = document.getElementById("movieList");
-            movieList.innerHTML = "";
-            movieArray.forEach(movie => {
-                movieList.innerHTML += `
-                    <div class="col-md-4">
-                        <div class="movie-card text-center">
-                            <img src="${movie.poster}" class="img-fluid">
-                            <h5>${movie.title} (${movie.year})</h5>
-                        </div>
-                    </div>
-                `;
-            });
-        }
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Monika Gautam. All rights reserved.</p>
+    </div>
+  </footer>
 
-        function searchMovies() {
-            let query = document.getElementById("searchBox").value.toLowerCase();
-            let filteredMovies = movies.filter(movie => movie.title.toLowerCase().includes(query));
-            displayMovies(filteredMovies);
-        }
-
-        displayMovies(movies);
-    </script>
-
+  <script src="script.js"></script>
 </body>
 </html>
