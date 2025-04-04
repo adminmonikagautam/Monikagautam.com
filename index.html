@@ -3,32 +3,37 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Monika Gautam Movies</title>
+  <title>My MovieDB</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-<header>
-    <div class="container">
-        <h1>MonikaGautam.com</h1>
-        <img src="bVgcsQddGZ71kTXGrFJOn1fDEZj.webp" alt="My Image" width="300">
-        <input type="text" id="search" placeholder="Search...">
-    </div>
-</header>
-    <div class="container">
-      <h1>MonikaGautam.com</h1>
-      <input type="text" id="search" placeholder="Search movies..." />
-    </div>
+  <header>
+    <div class="logo">MyMovieDB</div>
+    <input type="text" placeholder="Search movies..." id="searchInput" />
   </header>
 
-  <main class="container" id="movie-list">
-    <!-- Movie cards will be injected here -->
-  </main>
-
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 Monika Gautam. All rights reserved.</p>
+  <section class="hero">
+    <img src="images/featured.jpg" alt="Featured Movie" />
+    <div class="hero-text">
+      <h1>Featured Movie</h1>
+      <p>Don't miss the blockbuster of the year!</p>
     </div>
-  </footer>
+  </section>
+
+  <section class="section" id="topRated">
+    <h2>Top Rated Movies</h2>
+    <div class="movie-grid" id="topRatedMovies"></div>
+  </section>
+
+  <section class="section" id="trending">
+    <h2>Trending Now</h2>
+    <div class="movie-grid" id="trendingMovies"></div>
+  </section>
+
+  <section class="section" id="upcoming">
+    <h2>Upcoming Movies</h2>
+    <div class="movie-grid" id="upcomingMovies"></div>
+  </section>
 
   <script src="script.js"></script>
 </body>
