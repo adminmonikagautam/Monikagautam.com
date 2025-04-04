@@ -2,30 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Movie Database</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Monika Gautam - Movie Database Website like IMDb using TMDB API" />
+  <title>Monika Movies</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <h1>My Movie DB</h1>
-    <input type="text" id="searchInput" placeholder="Search movies..." />
-    <button id="toggleMode">Toggle Mode</button>
-    <a href="watchlist.html">Watchlist</a>
+    <div class="logo">MonikaMovies</div>
+    <nav>
+      <input type="text" id="search" placeholder="Search movies..." />
+    </nav>
   </header>
 
   <main>
-    <section id="movieList"></section>
-    <div id="pagination"></div>
+    <h1>Trending Movies</h1>
+    <div class="genre-filter" id="genreFilter"></div>
+    <div id="movieList" class="movie-grid"></div>
+    <button id="loadMore">Load More</button>
   </main>
 
-  <!-- Modal -->
-  <div id="movieModal" class="modal hidden">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <div id="modalDetails"></div>
-    </div>
-  </div>
+  <footer>
+    <p>&copy; 2025 Monika Gautam | Follow on 
+      <a href="https://instagram.com" target="_blank">Instagram</a>
+    </p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
