@@ -2,20 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My IMDb Clone</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IMDb Clone</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header>
-    <h1>My IMDb Clone</h1>
-    <input type="text" id="searchInput" placeholder="Search for movies..." />
-    <button onclick="searchMovies()">Search</button>
+    <div class="logo">IMDb Clone</div>
+    <input type="text" id="searchInput" placeholder="Search movies..." />
+    <a href="watchlist.html" class="watchlist-link">Watchlist</a>
   </header>
-
-  <main>
-    <div id="moviesContainer"></div>
-  </main>
+  <h2 style="padding: 10px 20px;">Trending</h2>
+  <div id="trendingMovies"></div>
+  <h2 style="padding: 10px 20px;">Search Results</h2>
+  <div id="moviesContainer"></div>
 
   <script src="script.js"></script>
 </body>
