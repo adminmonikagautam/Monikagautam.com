@@ -1,67 +1,27 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const movieGrid = document.querySelector(".movie-grid");
+const apiKey = "YOUR_API_KEY"; // Replace this with your OMDb API key
 
-  const movies = [
-    {
-      title: "The Dark Knight",
-      year: 2008,
-      rating: "9.0",
-      image: "images/dark-knight.jpg"
-    },
-    {
-      title: "Inception",
-      year: 2010,
-      rating: "8.8",
-      image: "images/inception.jpg"
-    },
-    {
-      title: "Interstellar",
-      year: 2014,
-      rating: "8.6",
-      image: "images/interstellar.jpg"
-    },
-    {
-      title: "Fight Club",
-      year: 1999,
-      rating: "8.8",
-      image: "images/fight-club.jpg"
-    },
-    {
-      title: "Pulp Fiction",
-      year: 1994,
-      rating: "8.9",
-      image: "images/pulp-fiction.jpg"
-    }
-  ];
+async function searchMovies() {
+  const query = document.getElementById("searchInput").value;
+  const response = await fetch(`https://www.omdbapi.com/?s=${query}&apikey=${apiKey}`);
+  const data = await response.json();
 
-  movies.forEach(movie => {
-    const card = document.createElement("div");
-    card.classList.add("movie-card");
+  const moviesContainer = document.getElementById("moviesContainer");
+  moviesContainer.innerHTML = "";
 
-    card.innerHTML = `
-      <img src="${movie.image}" alt="${movie.title}">
-      <div class="movie-info">
-        <div class="movie-title">${movie.title}</div>
-        <div class="movie-year">${movie.year}</div>
-        <div class="rating">⭐ ${movie.rating}</div>
-      </div>
-    `;
+  if (data.Search) {
+    data.Search.forEach((movie) => {
+      const movieDiv = document.createElement("div");
+      movieDiv.classList.add("movie");
 
-    movieGrid.appendChild(card);
-  });
-});
-const searchInput = document.getElementById("searchInput");
+      movieDiv.innerHTML = `
+        <img src="${movie.Poster}" alt="${movie.Title}" />
+        <h3>${movie.Title}</h3>
+        <p>${movie.Year}</p>
+      `;
 
-searchInput.addEventListener("input", function () {
-  const query = this.value.toLowerCase();
-  const cards = document.querySelectorAll(".movie-card");
-
-  cards.forEach(card => {
-    const title = card.querySelector(".movie-title").textContent.toLowerCase();
-    if (title.includes(query)) {
-      card.style.display = "block";
-    } else {
-      card.style.display = "none";
-    }
-  });
-});
+      moviesContainer.appendChild(movieDiv);
+    });
+  } else {
+    moviesContainer.innerHTML = "<p>No results found.</p>";
+  }
+}
