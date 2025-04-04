@@ -1,27 +1,35 @@
-const apiKey = "YOUR_API_KEY"; // Replace this with your OMDb API key
+const API_KEY = "19e3ac4e";
+const searchInput = document.getElementById("searchInput");
+const moviesContainer = document.getElementById("moviesContainer");
+const trendingContainer = document.getElementById("trendingMovies");
 
-async function searchMovies() {
-  const query = document.getElementById("searchInput").value;
-  const response = await fetch(`https://www.omdbapi.com/?s=${query}&apikey=${apiKey}`);
-  const data = await response.json();
+// Search movies
+searchInput.addEventListener("keyup", async () => {
+  const query = searchInput.value;
+  if (query.length < 3) return;
 
-  const moviesContainer = document.getElementById("moviesContainer");
-  moviesContainer.innerHTML = "";
+  const res = await fetch(`https://www.omdbapi.com/?s=${query}&apikey=${API_KEY}`);
+  const data = await res.json();
 
   if (data.Search) {
-    data.Search.forEach((movie) => {
-      const movieDiv = document.createElement("div");
-      movieDiv.classList.add("movie");
-
-      movieDiv.innerHTML = `
+    moviesContainer.innerHTML = data.Search.map(movie => `
+      <div class="movie" onclick="getMovieDetails('${movie.imdbID}')">
         <img src="${movie.Poster}" alt="${movie.Title}" />
         <h3>${movie.Title}</h3>
-        <p>${movie.Year}</p>
-      `;
-
-      moviesContainer.appendChild(movieDiv);
-    });
-  } else {
-    moviesContainer.innerHTML = "<p>No results found.</p>";
+      </div>
+    `).join("");
   }
+});
+
+// Trending movies
+const trendingIDs = ["tt0111161", "tt0068646", "tt0468569", "tt0109830"];
+trendingContainer.innerHTML = trendingIDs.map(id => `
+  <div class="movie" onclick="getMovieDetails('${id}')">
+    <img src="https://img.omdbapi.com/?i=${id}&apikey=${API_KEY}" />
+    <h3>ID: ${id}</h3>
+  </div>
+`).join("");
+
+function getMovieDetails(id) {
+  window.location.href = `movie.html?id=${id}`;
 }
