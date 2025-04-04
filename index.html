@@ -2,30 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Monika Gautam - Movie Database Website like IMDb using TMDB API" />
-  <title>Monika Movies</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Movie World</title>
+  <meta name="description" content="Explore movies, ratings, and reviews like IMDb. Powered by TMDb API." />
   <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="logo.png" />
 </head>
 <body>
   <header>
-    <div class="logo">MonikaMovies</div>
-    <nav>
-      <input type="text" id="search" placeholder="Search movies..." />
-    </nav>
+    <div class="logo">MyMovieWorld</div>
+    <form id="searchForm">
+      <input type="text" id="searchInput" placeholder="Search for movies..." />
+      <button type="submit">Search</button>
+    </form>
   </header>
 
   <main>
-    <h1>Trending Movies</h1>
-    <div class="genre-filter" id="genreFilter"></div>
-    <div id="movieList" class="movie-grid"></div>
-    <button id="loadMore">Load More</button>
+    <h2>Trending Movies</h2>
+    <div id="moviesContainer" class="grid-container"></div>
   </main>
 
   <footer>
-    <p>&copy; 2025 Monika Gautam | Follow on 
-      <a href="https://instagram.com" target="_blank">Instagram</a>
-    </p>
+    <p>&copy; 2025 MyMovieWorld. All rights reserved.</p>
+    <div class="social-links">
+      <a href="#">Instagram</a> |
+      <a href="#">Twitter</a> |
+      <a href="#">YouTube</a>
+    </div>
   </footer>
 
   <script src="script.js"></script>
