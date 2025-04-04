@@ -1,28 +1,38 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const movieContainer = document.querySelector(".movie-container");
+document.addEventListener("DOMContentLoaded", () => {
+  const movies = [
+    {
+      title: "The Dark Knight",
+      year: 2008,
+      rating: 9.0,
+      image: "images/dark-knight.jpg",
+    },
+    {
+      title: "Inception",
+      year: 2010,
+      rating: 8.8,
+      image: "images/inception.jpg",
+    },
+    {
+      title: "Interstellar",
+      year: 2014,
+      rating: 8.6,
+      image: "images/interstellar.jpg",
+    },
+  ];
 
-    // Dummy movie data
-    const movies = [
-        { title: "Inception", image: "inception.jpg", rating: "8.8" },
-        { title: "Interstellar", image: "interstellar.jpg", rating: "8.6" },
-        { title: "The Dark Knight", image: "dark_knight.jpg", rating: "9.0" },
-        { title: "Tenet", image: "tenet.jpg", rating: "7.4" }
-    ];
+  const movieContainer = document.getElementById("movie-container");
 
-    function displayMovies() {
-        movies.forEach(movie => {
-            const movieCard = document.createElement("div");
-            movieCard.classList.add("movie-card");
-            
-            movieCard.innerHTML = `
-                <img src="images/${movie.image}" alt="${movie.title}">
-                <h3>${movie.title}</h3>
-                <p>⭐ ${movie.rating}</p>
-            `;
+  movies.forEach((movie) => {
+    const card = document.createElement("div");
+    card.className = "movie-card";
 
-            movieContainer.appendChild(movieCard);
-        });
-    }
+    card.innerHTML = `
+      <img src="${movie.image}" alt="${movie.title}">
+      <h3>${movie.title}</h3>
+      <p>Year: ${movie.year}</p>
+      <p>Rating: ${movie.rating}</p>
+    `;
 
-    displayMovies();
+    movieContainer.appendChild(card);
+  });
 });
