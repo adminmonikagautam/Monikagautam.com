@@ -1,71 +1,46 @@
-const tmdbApiKey = "71a0cb256ce6112edd9d3fd192bab592";
-const omdbApiKey = "19e3ac4e";
+// Replace with your own TMDb API key
+const TMDB_API_KEY = "71a0cb256ce6112edd9d3fd192bab592";
+const BASE_URL = "https://api.themoviedb.org/3";
 
-// Get Movie ID from URL
+// Get movie ID from URL
 const urlParams = new URLSearchParams(window.location.search);
 const movieId = urlParams.get("id");
 
-const movieDetailsDiv = document.getElementById("movieDetails");
+// Movie Details Container
+const movieDetailsContainer = document.getElementById("movie-details");
 
-if (!movieId) {
-  movieDetailsDiv.innerHTML = "No movie ID provided.";
-  throw new Error("No movie ID provided.");
+if (movieId) {
+  fetchMovieDetails(movieId);
+} else {
+  movieDetailsContainer.innerHTML = "<p>No movie ID provided.</p>";
 }
 
-// Fetch Movie Details from TMDb
-async function getMovieDetails() {
-  try {
-    const tmdbUrl = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${tmdbApiKey}&language=en-US`;
-    const tmdbRes = await fetch(tmdbUrl);
-    const tmdbData = await tmdbRes.json();
-
-    const title = tmdbData.title || tmdbData.name;
-    const overview = tmdbData.overview;
-    const poster = `https://image.tmdb.org/t/p/w500${tmdbData.poster_path}`;
-    const releaseDate = tmdbData.release_date;
-    const imdbId = tmdbData.imdb_id;
-
-    // Fetch OMDB ratings
-    let ratings = "N/A";
-    if (imdbId) {
-      const omdbUrl = `https://www.omdbapi.com/?i=${imdbId}&apikey=${omdbApiKey}`;
-      const omdbRes = await fetch(omdbUrl);
-      const omdbData = await omdbRes.json();
-      ratings = omdbData.imdbRating || "N/A";
-    }
-
-    // Fetch OTT info from JustWatch
-    const region = "IN"; // India
-    const providerUrl = `https://api.themoviedb.org/3/movie/${movieId}/watch/providers?api_key=${tmdbApiKey}`;
-    const providerRes = await fetch(providerUrl);
-    const providerData = await providerRes.json();
-
-    const platforms = providerData.results?.[region]?.flatrate || [];
-    const logos = platforms.map(p => {
-      const link = p.url || "#";
-      const logo = `https://images.justwatch.com${p.logo_path}`;
-      return `<a href="${link}" target="_blank" title="${p.provider_name}">
-                <img src="${logo}" alt="${p.provider_name}" style="height: 30px; margin: 5px;" />
-              </a>`;
+// Fetch movie details
+function fetchMovieDetails(id) {
+  fetch(`${BASE_URL}/movie/${id}?api_key=${TMDB_API_KEY}&language=en-US`)
+    .then((response) => response.json())
+    .then((movie) => {
+      renderMovieDetails(movie);
+    })
+    .catch((error) => {
+      console.error("Error fetching movie details:", error);
+      movieDetailsContainer.innerHTML = "<p>Failed to load movie details. Please try again.</p>";
     });
-
-    movieDetailsDiv.innerHTML = `
-      <div class="movie-card">
-        <img src="${poster}" alt="${title}" class="poster" />
-        <div class="info">
-          <h2>${title}</h2>
-          <p><strong>Release:</strong> ${releaseDate}</p>
-          <p><strong>IMDB Rating:</strong> ${ratings}</p>
-          <p>${overview}</p>
-          <h4>Available On:</h4>
-          <div class="platforms">${logos.join("") || "Not available on streaming"}</div>
-        </div>
-      </div>
-    `;
-  } catch (error) {
-    console.error("Error:", error);
-    movieDetailsDiv.innerHTML = "Failed to load movie details. Please try again.";
-  }
 }
 
-getMovieDetails();
+// Render movie details
+function renderMovieDetails(movie) {
+  movieDetailsContainer.innerHTML = `
+    <div class="movie-banner">
+      <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
+      <div class="movie-info">
+        <h2>${movie.title}</h2>
+        <p><strong>Release Date:</strong> ${movie.release_date}</p>
+        <p><strong>Rating:</strong> ${movie.vote_average}</p>
+        <p><strong>Overview:</strong> ${movie.overview}</p>
+        <p><strong>Genres:</strong> ${movie.genres.map((g) => g.name).join(", ")}</p>
+        <a href="index.html">← Back to Home</a>
+      </div>
+    </div>
+  `;
+}
