@@ -1,7 +1,4 @@
-// Firebase initialization
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyB8q0-dKDSY9oxhEfnb4Nij30VZSFfNa34",
   authDomain: "monikagautam-cfbc4.firebaseapp.com",
@@ -11,70 +8,115 @@ const firebaseConfig = {
   appId: "1:225196060820:web:7d4002d2a4bcdf46c20481",
   measurementId: "G-4KYML15KJK"
 };
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// Elements
+const searchInput = document.getElementById("searchInput");
+const resultsGrid = document.getElementById("results");
+const modal = document.getElementById("movieModal");
+const modalContent = document.querySelector(".modal-content");
+const googleBtn = document.getElementById("googleSignIn");
+const userInfo = document.getElementById("userInfo");
+
+let currentUser = null;
 
 // Google Sign-In
-document.getElementById("googleSignIn").addEventListener("click", () => {
-  signInWithPopup(auth, provider)
-    .then(result => {
-      const user = result.user;
-      document.getElementById("userInfo").innerHTML = `Welcome, ${user.displayName}`;
-    })
-    .catch(error => {
-      console.error("Login Error:", error);
-    });
+googleBtn.onclick = () => {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider).then(res => {
+    currentUser = res.user;
+    userInfo.textContent = `Signed in as: ${currentUser.displayName}`;
+  });
+};
+
+// OMDb API key
+const OMDB_API_KEY = "53fa7e6c";
+
+// Search on input
+searchInput.addEventListener("keyup", e => {
+  if (e.key === "Enter") searchMovies(searchInput.value);
 });
 
-// OMDb API Integration
-const OMDB_API_KEY = "78f6e1f4"; // Replace if needed
-const searchInput = document.getElementById("searchInput");
-const resultsContainer = document.getElementById("results");
-
-searchInput.addEventListener("input", () => {
-  const query = searchInput.value.trim();
-  if (query.length >= 3) {
-    fetch(`https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${query}`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.Search) {
-          resultsContainer.innerHTML = data.Search.map(movie => `
-            <div class="movie-card" onclick="showDetails('${movie.imdbID}')">
-              <img src="${movie.Poster}" alt="${movie.Title}">
-              <h3>${movie.Title}</h3>
-              <p>${movie.Year}</p>
-            </div>
-          `).join('');
-        } else {
-          resultsContainer.innerHTML = "<p>No movies found.</p>";
-        }
-      });
-  }
-});
-
-// Show Detail Modal
-window.showDetails = (imdbID) => {
-  fetch(`https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&i=${imdbID}&plot=full`)
+// Search movies
+function searchMovies(query) {
+  fetch(`https://www.omdbapi.com/?s=${query}&apikey=${OMDB_API_KEY}`)
     .then(res => res.json())
-    .then(movie => {
-      const modal = document.getElementById("movieModal");
-      modal.innerHTML = `
-        <div class="modal-content">
-          <span class="close" onclick="closeModal()">&times;</span>
-          <h2>${movie.Title} (${movie.Year})</h2>
-          <img src="${movie.Poster}" alt="${movie.Title}" />
-          <p><strong>IMDB Rating:</strong> ${movie.imdbRating}</p>
-          <p><strong>Genre:</strong> ${movie.Genre}</p>
-          <p><strong>Plot:</strong> ${movie.Plot}</p>
-          <p><strong>Director:</strong> ${movie.Director}</p>
-          <p><strong>Actors:</strong> ${movie.Actors}</p>
-        </div>
-      `;
-      modal.style.display = "block";
+    .then(data => {
+      resultsGrid.innerHTML = "";
+      if (data.Search) {
+        data.Search.forEach(movie => renderMovieCard(movie));
+      } else {
+        resultsGrid.innerHTML = "<p>No results found.</p>";
+      }
     });
-};
+}
 
-window.closeModal = () => {
-  document.getElementById("movieModal").style.display = "none";
-};
+// Render movie card
+function renderMovieCard(movie) {
+  const card = document.createElement("div");
+  card.className = "movie-card";
+  card.innerHTML = `
+    <img src="${movie.Poster !== "N/A" ? movie.Poster : "https://via.placeholder.com/300x400"}" />
+    <h3>${movie.Title}</h3>
+  `;
+  card.onclick = () => openModal(movie.imdbID);
+  resultsGrid.appendChild(card);
+}
+
+// Open modal
+function openModal(imdbID) {
+  fetch(`https://www.omdbapi.com/?i=${imdbID}&apikey=${OMDB_API_KEY}&plot=full`)
+    .then(res => res.json())
+    .then(data => {
+      modal.style.display = "flex";
+      modalContent.innerHTML = `
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <h2>${data.Title} (${data.Year})</h2>
+        <p><strong>Plot:</strong> ${data.Plot}</p>
+        <p><strong>Director:</strong> ${data.Director}</p>
+        <p><strong>Genre:</strong> ${data.Genre}</p>
+        <p><strong>Rating:</strong> ${data.imdbRating}</p>
+        <div><strong>Comments:</strong><div id="comments"></div></div>
+        <textarea id="commentBox" rows="2" placeholder="Write a comment..."></textarea>
+        <button id="submitComment">Post</button>
+      `;
+
+      loadComments(imdbID);
+      document.getElementById("submitComment").onclick = () => {
+        const text = document.getElementById("commentBox").value;
+        if (currentUser && text.trim()) {
+          db.collection("comments").add({
+            imdbID,
+            user: currentUser.displayName,
+            text,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          }).then(() => loadComments(imdbID));
+        }
+      };
+    });
+}
+
+// Load comments
+function loadComments(imdbID) {
+  const commentContainer = document.getElementById("comments");
+  commentContainer.innerHTML = "Loading...";
+  db.collection("comments")
+    .where("imdbID", "==", imdbID)
+    .orderBy("timestamp", "desc")
+    .get()
+    .then(snapshot => {
+      commentContainer.innerHTML = "";
+      snapshot.forEach(doc => {
+        const c = doc.data();
+        commentContainer.innerHTML += `<p><strong>${c.user}:</strong> ${c.text}</p>`;
+      });
+    });
+}
+
+// Close modal
+function closeModal() {
+  modal.style.display = "none";
+}
