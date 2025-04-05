@@ -4,19 +4,68 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Movie Details</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body class="dark-theme">
-  <header>
-    <h1>Movie Details</h1>
-    <a href="index.html">← Back to Home</a>
-  </header>
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      padding: 20px;
+    }
+    .movie-banner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .movie-banner img {
+      width: 300px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #000;
+    }
+    .movie-info {
+      text-align: center;
+      max-width: 600px;
+    }
+    .movie-info h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    .movie-info p {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin: 5px 0;
+    }
+    a {
+      color: #09f;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
 
-  <main>
-    <section id="movieDetails" class="movie-details">
-      Loading movie details...
-    </section>
-  </main>
+    @media (min-width: 768px) {
+      .movie-banner {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+      .movie-info {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Movie Details</h1>
+    <div id="movie-details">
+      <p>Loading...</p>
+    </div>
+  </div>
 
   <script src="movie.js"></script>
 </body>
