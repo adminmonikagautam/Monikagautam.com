@@ -1,37 +1,50 @@
-const tmdbKey = "71a0cb256ce6112edd9d3fd192bab592";
-const omdbKey = "19e3ac4e";
+const apiKey = "YOUR_API_KEY";
+const movieList = document.getElementById("movieList");
+const searchInput = document.getElementById("searchInput");
 
-document.getElementById('searchInput').addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') {
-    const query = e.target.value.trim();
-    if (query) fetchMovies(query);
+searchInput.addEventListener("input", () => {
+  const query = searchInput.value.trim();
+  if (query) {
+    fetchMovies(query);
+  } else {
+    loadTrending();
   }
 });
 
-function fetchMovies(query) {
-  fetch(`https://www.omdbapi.com/?apikey=${omdbKey}&s=${query}`)
+function loadTrending() {
+  fetch(`https://api.themoviedb.org/3/trending/movie/day?api_key=${apiKey}`)
     .then(res => res.json())
-    .then(data => {
-      if (data.Search) renderMovies(data.Search);
-    });
+    .then(data => displayMovies(data.results));
 }
 
-function renderMovies(movies) {
-  const container = document.getElementById('movies-container');
-  container.innerHTML = '';
+function fetchMovies(query) {
+  fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}`)
+    .then(res => res.json())
+    .then(data => displayMovies(data.results));
+}
+
+function displayMovies(movies) {
+  movieList.innerHTML = "";
   movies.forEach(movie => {
-    const div = document.createElement('div');
-    div.className = 'movie-card';
+    const div = document.createElement("div");
+    div.classList.add("movie");
     div.innerHTML = `
-      <img src="${movie.Poster}" alt="${movie.Title}" width="100%" />
-      <h3>${movie.Title}</h3>
-      <p>${movie.Year}</p>
+      <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" />
+      <h3>${movie.title}</h3>
+      <button onclick="goToDetails(${movie.id})">View Details</button>
     `;
-    div.onclick = () => showMovieDetails(movie.imdbID);
-    container.appendChild(div);
+    movieList.appendChild(div);
   });
 }
 
-function showMovieDetails(imdbID) {
-  window.open(`https://www.imdb.com/title/${imdbID}`, '_blank');
+function goToDetails(id) {
+  localStorage.setItem("movieId", id);
+  window.location.href = "movie.html";
 }
+
+function logout() {
+  // Dummy logout for now
+  alert("Logged out!");
+}
+
+loadTrending();
