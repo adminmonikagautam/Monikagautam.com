@@ -1,28 +1,30 @@
-<!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Discover trending movies, search, and manage your watchlist.">
+  <meta name="keywords" content="movies, trending, TMDb, OMDb, watchlist, trailers, OTT">
+  <meta name="author" content="Monika Gautam">
   <title>Movie Explorer - Home</title>
-  <meta name="description" content="Explore trending movies, ratings, trailers, and OTT availability." />
-  <meta name="keywords" content="Movies, TV Shows, Ratings, Watchlist, Trailers, OTT" />
-  <meta property="og:title" content="Movie Explorer" />
-  <meta property="og:description" content="Search and explore movies with trailers and OTT links." />
-  <meta property="og:image" content="logo.png" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
   <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
-</head><body>
-  <header>
-    <h1>Movie Explorer</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="watchlist.html">Watchlist</a>
-    </nav>
-    <input type="text" id="searchInput" placeholder="Search for movies..." />
-  </header>  <main>
-    <section id="trending">
-      <h2>Trending Movies</h2>
-      <div id="movieList" class="movie-grid"></div>
-    </section>
-  </main>  <footer>
-    <p>&copy; 2025 Movie Explorer. All rights reserved.</p>
-  </footer>
-</body></html>
+</head>
+<body class="bg-dark text-white">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+    <a class="navbar-brand" href="index.html">Movie Explorer</a>
+    <div class="ml-auto">
+      <a href="watchlist.html" class="btn btn-outline-light btn-sm">Watchlist</a>
+      <a href="login.html" class="btn btn-outline-light btn-sm ml-2">Login</a>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <h3>Trending Movies</h3>
+    <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search for movies...">
+    <div id="movieList" class="row"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
