@@ -1,20 +1,48 @@
-// API Keys const TMDB_API_KEY = "71a0cb256ce6112edd9d3fd192bab592"; const OMDB_API_KEY = "19e3ac4e";
+// script.js (Final version with all features)
 
-// DOM Elements const movieList = document.getElementById("movieList"); const searchInput = document.getElementById("searchInput"); const watchlistContainer = document.getElementById("watchlistContainer"); const movieDetails = document.getElementById("movieDetails");
+const TMDB_API_KEY = "71a0cb256ce6112edd9d3fd192bab592"; const OMDB_API_KEY = "19e3ac4e"; const TMDB_BASE_URL = "https://api.themoviedb.org/3"; const IMG_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
-// TMDb Image Base const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
+// Load trending or search document.addEventListener("DOMContentLoaded", () => { const movieList = document.getElementById("movieList"); const searchInput = document.getElementById("searchInput");
 
-// ------------------- HOME PAGE ------------------- if (movieList) { fetch(https://api.themoviedb.org/3/trending/movie/week?api_key=${TMDB_API_KEY}) .then((res) => res.json()) .then((data) => { displayMovies(data.results); }); }
+if (movieList) loadTrending(); if (searchInput) { searchInput.addEventListener("input", () => { const query = searchInput.value.trim(); if (query.length > 1) searchMovies(query); else loadTrending(); }); }
 
-// ------------------- SEARCH ------------------- if (searchInput) { searchInput.addEventListener("keyup", (e) => { if (e.key === "Enter") { const query = searchInput.value.trim(); if (query) { fetch(https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${query}) .then((res) => res.json()) .then((data) => { movieList.innerHTML = ""; displayMovies(data.results); }); } } }); }
+const movieDetails = document.getElementById("movieDetails"); if (movieDetails) loadMovieDetails();
 
-function displayMovies(movies) { movies.forEach((movie) => { const div = document.createElement("div"); div.className = "movie-card"; div.innerHTML = <img src="${movie.poster_path ? IMAGE_BASE_URL + movie.poster_path : 'https://via.placeholder.com/300x450'}" alt="${movie.title}"> <h3>${movie.title}</h3>; div.onclick = () => { window.location.href = movie.html?id=${movie.id}; }; movieList.appendChild(div); }); }
+const watchlistContainer = document.getElementById("watchlistContainer"); if (watchlistContainer) loadWatchlist();
 
-// ------------------- MOVIE DETAILS PAGE ------------------- if (movieDetails) { const params = new URLSearchParams(window.location.search); const movieId = params.get("id");
+setupAuth(); setupComments(); });
 
-if (movieId) { fetch(https://api.themoviedb.org/3/movie/${movieId}?api_key=${TMDB_API_KEY}&append_to_response=videos,watch/providers) .then((res) => res.json()) .then((movie) => { fetch(https://www.omdbapi.com/?i=${movie.imdb_id}&apikey=${OMDB_API_KEY}) .then((res) => res.json()) .then((omdb) => { const trailer = movie.videos.results.find(v => v.type === "Trailer" && v.site === "YouTube"); const ott = movie["watch/providers"].results?.IN?.flatrate?.[0]; movieDetails.innerHTML = <img src="${movie.poster_path ? IMAGE_BASE_URL + movie.poster_path : 'https://via.placeholder.com/300x450'}" alt="${movie.title}" /> <h2>${movie.title}</h2> <p><strong>Release:</strong> ${movie.release_date}</p> <p><strong>Genres:</strong> ${movie.genres.map(g => g.name).join(', ')}</p> <p><strong>IMDb:</strong> ${omdb.imdbRating} / 10</p> <p><strong>Overview:</strong> ${movie.overview}</p> ${trailer ?<iframe src="https://www.youtube.com/embed/${trailer.key}" frameborder="0" allowfullscreen></iframe>: ""} ${ott ?<p><strong>Watch on:</strong> ${ott.provider_name}</p><a href="https://www.justwatch.com/in/movie/${movie.title.toLowerCase().replace(/ /g, '-')}">Watch Now</a>: "<p>Not available on OTT</p>"} <button onclick="addToWatchlist(${movie.id}, '${movie.title}', '${movie.poster_path}')">Add to Watchlist</button>; }); }); } else { movieDetails.innerHTML = "<p>Movie not found.</p>"; } }
+function loadTrending() { fetch(${TMDB_BASE_URL}/trending/movie/week?api_key=${TMDB_API_KEY}) .then(res => res.json()) .then(data => displayMovies(data.results)) .catch(console.error); }
 
-// ------------------- WATCHLIST ------------------- function addToWatchlist(id, title, poster) { const movie = { id, title, poster }; const stored = JSON.parse(localStorage.getItem("watchlist")) || []; if (!stored.find(m => m.id === id)) { stored.push(movie); localStorage.setItem("watchlist", JSON.stringify(stored)); alert("Added to watchlist"); } else { alert("Already in watchlist"); } }
+function searchMovies(query) { fetch(${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&query=${query}) .then(res => res.json()) .then(data => displayMovies(data.results)) .catch(console.error); }
 
-if (watchlistContainer) { const watchlist = JSON.parse(localStorage.getItem("watchlist")) || []; watchlist.forEach(movie => { const div = document.createElement("div"); div.className = "movie-card"; div.innerHTML = <img src="${movie.poster ? IMAGE_BASE_URL + movie.poster : 'https://via.placeholder.com/300x450'}" alt="${movie.title}" /> <h3>${movie.title}</h3>; div.onclick = () => { window.location.href = movie.html?id=${movie.id}; }; watchlistContainer.appendChild(div); }); }
+function displayMovies(movies) { const movieList = document.getElementById("movieList"); movieList.innerHTML = movies.map(movie => <div class="col-md-3 mb-4"> <div class="card bg-secondary text-white h-100"> <img src="${IMG_BASE_URL + movie.poster_path}" class="card-img-top" alt="${movie.title}" /> <div class="card-body"> <h5 class="card-title">${movie.title}</h5> <button onclick="viewDetails(${movie.id})" class="btn btn-light btn-sm">View Details</button> </div> </div> </div>).join(""); }
+
+function viewDetails(id) { localStorage.setItem("selectedMovieId", id); window.location.href = "movie.html"; }
+
+function loadMovieDetails() { const id = localStorage.getItem("selectedMovieId"); if (!id) return;
+
+fetch(${TMDB_BASE_URL}/movie/${id}?api_key=${TMDB_API_KEY}&append_to_response=videos,watch/providers) .then(res => res.json()) .then(movie => { fetch(https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&t=${movie.title}) .then(res => res.json()) .then(omdb => renderMovieDetails(movie, omdb)) .catch(console.error); }); }
+
+function renderMovieDetails(movie, omdb) { const trailer = movie.videos.results.find(v => v.type === "Trailer" && v.site === "YouTube"); const provider = movie["watch/providers"].results.IN?.flatrate?.[0];
+
+document.getElementById("movieDetails").innerHTML = <div class="row"> <div class="col-md-4"> <img src="${IMG_BASE_URL + movie.poster_path}" class="img-fluid" alt="${movie.title}" /> </div> <div class="col-md-8"> <h2>${movie.title}</h2> <p>${movie.overview}</p> <p><strong>Release:</strong> ${movie.release_date}</p> <p><strong>IMDb:</strong> ${omdb.imdbRating}</p> ${provider ?<p><strong>Watch on:</strong> ${provider.provider_name}</p>: ""} <button onclick="addToWatchlist(${movie.id}, '${movie.title}', '${movie.poster_path}')" class="btn btn-outline-success">Add to Watchlist</button> ${trailer ?<div class="mt-3"><iframe width="100%" height="315" src="https://www.youtube.com/embed/${trailer.key}" frameborder="0" allowfullscreen></iframe></div>: ""} </div> </div>; }
+
+function addToWatchlist(id, title, posterPath) { const list = JSON.parse(localStorage.getItem("watchlist")) || []; if (!list.some(m => m.id === id)) { list.push({ id, title, posterPath }); localStorage.setItem("watchlist", JSON.stringify(list)); alert("Added to watchlist!"); } }
+
+function loadWatchlist() { const list = JSON.parse(localStorage.getItem("watchlist")) || []; const container = document.getElementById("watchlistContainer"); container.innerHTML = list.length ? list.map(m => <div class="col-md-3 mb-4"> <div class="card bg-secondary text-white"> <img src="${IMG_BASE_URL + m.posterPath}" class="card-img-top" alt="${m.title}" /> <div class="card-body"> <h5 class="card-title">${m.title}</h5> <button onclick="viewDetails(${m.id})" class="btn btn-light btn-sm">View Details</button> </div> </div> </div>).join("") : "<p>No movies in watchlist.</p>"; }
+
+function setupAuth() { const signupForm = document.getElementById("signupForm"); const loginForm = document.getElementById("loginForm");
+
+if (signupForm) { signupForm.addEventListener("submit", e => { e.preventDefault(); const user = { username: document.getElementById("signupUsername").value, password: document.getElementById("signupPassword").value }; localStorage.setItem("user", JSON.stringify(user)); alert("Account created! Login now."); window.location.href = "login.html"; }); }
+
+if (loginForm) { loginForm.addEventListener("submit", e => { e.preventDefault(); const username = document.getElementById("loginUsername").value; const password = document.getElementById("loginPassword").value; const user = JSON.parse(localStorage.getItem("user")); if (user?.username === username && user?.password === password) { alert("Logged in!"); window.location.href = "index.html"; } else { alert("Invalid credentials"); } }); } }
+
+function setupComments() { const form = document.getElementById("commentForm"); const list = document.getElementById("commentList"); const movieId = localStorage.getItem("selectedMovieId");
+
+if (!form || !list || !movieId) return;
+
+const comments = JSON.parse(localStorage.getItem(comments_${movieId})) || []; list.innerHTML = comments.map(c => <li class='list-group-item bg-dark text-white'><strong>${c.user}:</strong> ${c.text}</li>).join("");
+
+form.addEventListener("submit", e => { e.preventDefault(); const user = document.getElementById("username").value; const text = document.getElementById("commentText").value; const newComment = { user, text }; comments.push(newComment); localStorage.setItem(comments_${movieId}, JSON.stringify(comments)); location.reload(); }); }
 
