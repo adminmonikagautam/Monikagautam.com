@@ -42,6 +42,7 @@ function displayMovies(movies) {
     div.innerHTML = `
       <img src="https://image.tmdb.org/t/p/w300${movie.poster_path}" alt="${movie.title}" />
       <h3>${movie.title}</h3>
+      <button onclick="addToWatchlist(${movie.id}, '${movie.title}', '${movie.poster_path}')">+ Watchlist</button>
     `;
     div.onclick = () => {
       localStorage.setItem("movieID", movie.id);
@@ -49,4 +50,17 @@ function displayMovies(movies) {
     };
     movieList.appendChild(div);
   });
+}
+
+function addToWatchlist(id, title, posterPath) {
+  let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
+
+  // Avoid duplicates
+  if (!watchlist.find(movie => movie.id === id)) {
+    watchlist.push({ id, title, posterPath });
+    localStorage.setItem("watchlist", JSON.stringify(watchlist));
+    alert(`${title} added to your watchlist!`);
+  } else {
+    alert("Already in watchlist!");
+  }
 }
