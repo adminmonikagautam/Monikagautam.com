@@ -1,1 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MonikaFlix - Watchlist</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">MonikaFlix</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="watchlist.html">Watchlist</a>
+      <a id="logoutBtn" style="display:none;">Logout</a>
+    </nav>
+  </header>
 
+  <main>
+    <h2>Your Watchlist</h2>
+    <div id="watchlistContainer" class="movie-grid"></div>
+  </main>
+
+  <script type="module">
+    import { auth, db } from './firebase.js';
+    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+    import { collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    const TMDB_API_KEY = '71a0cb256ce6112edd9d3fd192bab592';
+    const logoutBtn = document.getElementById('logoutBtn');
+    const container = document.getElementById('watchlistContainer');
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        logoutBtn.style.display = 'inline';
+        const watchlistRef = collection(db, 'watchlists');
+        const q = query(watchlistRef, where("userId", "==", user.uid));
+        const snapshot = await getDocs(q);
+
+        const movieIds = snapshot.docs.map(doc => doc.data().movieId);
+
+        if (movieIds.length === 0) {
+          container.innerHTML = '<p>Your watchlist is empty.</p>';
+        }
+
+        for (let id of movieIds) {
+          const res = await fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${TMDB_API_KEY}`);
+          const movie = await res.json();
+          const card = document.createElement('div');
+          card.classList.add('movie-card');
+          card.innerHTML = `
+            <a href="movie.html?id=${movie.id}">
+              <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" />
+              <h3>${movie.title}</h3>
+            </a>
+          `;
+          container.appendChild(card);
+        }
+
+      } else {
+        alert("Login to view your watchlist");
+        window.location.href = 'login.html';
+      }
+    });
+
+    logoutBtn.addEventListener('click', () => {
+      signOut(auth).then(() => {
+        window.location.href = 'login.html';
+      });
+    });
+  </script>
+</body>
+</html>
