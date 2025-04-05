@@ -2,27 +2,72 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MonikaMovies</title>
-  <link rel="stylesheet" href="styles.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A powerful movie database website like IMDb" />
+  <meta name="keywords" content="movies, series, reviews, ratings, imdb clone" />
+  <meta name="author" content="YourSiteName" />
+  <title>YourMovieDB - Explore Movies & Series</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="assets/favicon.png" type="image/png" />
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
   <header>
-    <h1>MonikaMovies</h1>
-    <input type="text" id="searchInput" placeholder="Search movies or series..." />
-    <button onclick="logout()">Logout</button>
+    <div class="logo">YourMovieDB</div>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#popular">Popular</a></li>
+        <li><a href="#top-rated">Top Rated</a></li>
+        <li><a href="#upcoming">Upcoming</a></li>
+      </ul>
+    </nav>
+    <div class="auth-buttons">
+      <button id="loginBtn">Login with Google</button>
+      <button id="logoutBtn" style="display: none;">Logout</button>
+    </div>
   </header>
 
-  <main id="movieList"></main>
+  <main>
+    <section class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search movies or series..." />
+    </section>
+
+    <section id="movie-list" class="movie-grid">
+      <!-- Movies will be injected here -->
+    </section>
+
+    <section id="movie-detail" class="modal hidden">
+      <div class="modal-content">
+        <span class="close-btn" id="closeDetail">&times;</span>
+        <div id="detailContent">
+          <!-- Movie details will appear here -->
+        </div>
+      </div>
+    </section>
+  </main>
 
   <footer>
-    <p>&copy; 2025 Monika Gautam. All rights reserved.</p>
-    <a href="#">Facebook</a> |
-    <a href="#">Instagram</a> |
-    <a href="#">Twitter</a>
+    <p>&copy; 2025 YourMovieDB. All rights reserved.</p>
+    <div class="social-links">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+    </div>
   </footer>
 
-  <script src="firebase.js"></script>
+  <!-- Firebase -->
+  <script type="module" src="firebase-config.js"></script>
+
+  <!-- Main Script -->
   <script src="script.js"></script>
 </body>
 </html>
