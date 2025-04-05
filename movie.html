@@ -1,1 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Movie Details | MonikaFlix</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+  <header>
+    <a href="index.html"><img src="logo.png" class="logo" alt="logo"></a>
+    <button id="logoutBtn">Logout</button>
+  </header>
+
+  <main>
+    <div id="movieDetails" class="movie-details"></div>
+
+    <section id="trailerSection">
+      <h3>Trailer</h3>
+      <div id="trailerContainer"></div>
+    </section>
+
+    <section>
+      <button id="addToWatchlist">Add to Watchlist</button>
+      <p id="ottLink">OTT availability: <a href="#" target="_blank">Check on JustWatch</a></p>
+    </section>
+
+    <section id="commentsSection">
+      <h3>Comments</h3>
+      <div id="commentList"></div>
+      <textarea id="commentInput" placeholder="Write a comment..."></textarea>
+      <button id="submitComment">Post Comment</button>
+    </section>
+  </main>
+
+  <script type="module" src="firebase.js"></script>
+  <script type="module" src="auth.js"></script>
+  <script type="module" src="movie.js"></script>
+</body>
+</html>
