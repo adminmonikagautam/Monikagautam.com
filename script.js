@@ -9,7 +9,8 @@ function fetchPopularMovies() {
   fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${tmdbKey}`)
     .then(res => res.json())
     .then(data => {
-      if (data.results) {
+      if (data.results) { 
+        console.log("API Response:", data);
         displayMovies(data.results);
       } else {
         movieSection.innerHTML = "<p>No movies found.</p>";
