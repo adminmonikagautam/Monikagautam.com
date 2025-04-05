@@ -1,26 +1,38 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+const apiKey = '71a0cb256ce6112edd9d3fd192bab592'; // TMDb
+const apiURL = `https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}`;
+const imageBaseURL = 'https://image.tmdb.org/t/p/w500';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyB8q0-dKDSY9oxhEfnb4Nij30VZSFfNa34",
-  authDomain: "monikagautam-cfbc4.firebaseapp.com",
-  projectId: "monikagautam-cfbc4",
-  storageBucket: "monikagautam-cfbc4.appspot.com",
-  messagingSenderId: "225196060820",
-  appId: "1:225196060820:web:7d4002d2a4bcdf46c20481",
-  measurementId: "G-4KYML15KJK"
-};
+async function fetchTrendingMovies() {
+  try {
+    const res = await fetch(apiURL);
+    const data = await res.json();
+    const movies = data.results;
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth();
-const provider = new GoogleAuthProvider();
+    const container = document.getElementById('movies-container');
+    container.innerHTML = '';
 
-document.getElementById("signInBtn").addEventListener("click", () => {
-  signInWithPopup(auth, provider)
-    .then(result => {
-      alert(`Welcome ${result.user.displayName}`);
-    })
-    .catch(error => {
-      console.error(error);
+    movies.forEach(movie => {
+      const card = document.createElement('div');
+      card.classList.add('movie-card');
+
+      card.innerHTML = `
+        <img src="${imageBaseURL + movie.poster_path}" alt="${movie.title}" />
+        <div class="movie-info">
+          <h3 class="movie-title">${movie.title}</h3>
+          <p class="movie-year">${movie.release_date?.slice(0, 4) || 'N/A'}</p>
+        </div>
+      `;
+
+      // Add click to open movie detail page
+      card.addEventListener('click', () => {
+        window.location.href = `movie.html?id=${movie.id}`;
+      });
+
+      container.appendChild(card);
     });
-});
+  } catch (error) {
+    console.error('Error fetching movies:', error);
+  }
+}
+
+fetchTrendingMovies();
