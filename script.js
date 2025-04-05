@@ -1,82 +1,46 @@
-import { logoutUser, checkUserState } from './auth.js';
+// script.js
 
-const TMDB_API_KEY = "71a0cb256ce6112edd9d3fd192bab592";
-const OMDB_API_KEY = "19e3ac4e";
+const tmdbApiKey = "71a0cb256ce6112edd9d3fd192bab592";
+const omdbApiKey = "19e3ac4e";
 
-// Elements
-const trendingContainer = document.getElementById("trendingMovies");
-const searchInput = document.getElementById("searchInput");
-const logoutBtn = document.getElementById("logoutBtn");
-
-// Check Auth
-checkUserState((user) => {
-  if (!user && window.location.pathname.includes("index.html")) {
-    window.location.href = "login.html";
-  }
+document.addEventListener("DOMContentLoaded", () => {
+  fetchTrendingMovies();
 });
 
-// Logout
-if (logoutBtn) {
-  logoutBtn.addEventListener("click", logoutUser);
-}
-
-// Fetch Trending Movies
 async function fetchTrendingMovies() {
-  const res = await fetch(`https://api.themoviedb.org/3/trending/movie/day?api_key=${TMDB_API_KEY}`);
-  const data = await res.json();
-  displayMovies(data.results);
-}
+  const url = `https://api.themoviedb.org/3/trending/movie/week?api_key=${tmdbApiKey}`;
 
-// Fetch Search Results
-async function searchMovies(query) {
-  const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${query}`);
-  const data = await res.json();
-  displayMovies(data.results);
-}
-
-// Get IMDb Rating from OMDb
-async function fetchIMDbRating(title) {
   try {
-    const res = await fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(title)}&apikey=${OMDB_API_KEY}`);
-    const data = await res.json();
-    return data.imdbRating || "N/A";
-  } catch {
-    return "N/A";
-  }
-}
+    const response = await fetch(url);
+    const data = await response.json();
+    const movies = data.results.slice(0, 12); // Limit to 12 movies
 
-// Display Movie Cards
-async function displayMovies(movies) {
-  trendingContainer.innerHTML = "";
+    const container = document.getElementById("movie-container");
+    container.innerHTML = "";
 
-  for (const movie of movies) {
-    const imdbRating = await fetchIMDbRating(movie.title);
+    for (const movie of movies) {
+      const omdbRating = await getOMDbRating(movie.title);
 
-    const card = document.createElement("div");
-    card.classList.add("movie-card");
-    card.innerHTML = `
-      <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
-      <h3>${movie.title}</h3>
-      <p>IMDb: ${imdbRating}</p>
-    `;
-    card.addEventListener("click", () => {
-      localStorage.setItem("movieId", movie.id);
-      window.location.href = "movie.html";
-    });
-
-    trendingContainer.appendChild(card);
-  }
-}
-
-// Search Listener
-if (searchInput) {
-  searchInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-      const query = searchInput.value.trim();
-      if (query) searchMovies(query);
+      const card = document.createElement("div");
+      card.classList.add("movie-card");
+      card.innerHTML = `
+        <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
+        <h3>${movie.title}</h3>
+        <p>TMDb: ${movie.vote_average}/10</p>
+        <p>IMDB: ${omdbRating}</p>
+      `;
+      card.onclick = () => {
+        window.location.href = `movie.html?id=${movie.id}`;
+      };
+      container.appendChild(card);
     }
-  });
+  } catch (error) {
+    console.error("Error fetching movies:", error);
+  }
 }
 
-// Load trending on page load
-fetchTrendingMovies();
+async function getOMDbRating(title) {
+  const response = await fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(title)}&apikey=${omdbApiKey}`);
+  const data = await response.json();
+  return data.imdbRating || "N/A";
+}
