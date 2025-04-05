@@ -1,32 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Detailed movie info with trailer, ratings, OTT, and user comments.">
-  <meta name="keywords" content="movie, trailer, ott, imdb, comments, tmdb, omdb">
+  <meta name="description" content="Your personal movie watchlist">
+  <meta name="keywords" content="watchlist, movies, saved, favorite">
   <meta name="author" content="Monika Gautam">
-  <title>Movie Details</title>
+  <title>Watchlist</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body class="bg-dark text-white">
   <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
-    <a class="navbar-brand" href="index.html">← Back</a>
+    <a class="navbar-brand" href="index.html">← Back to Home</a>
   </nav>
 
   <div class="container mt-4">
-    <div id="movieDetails" class="mb-5"></div>
-
-    <div id="commentsSection" class="mt-5">
-      <h5>User Comments</h5>
-      <form id="commentForm">
-        <input type="text" id="username" class="form-control mb-2" placeholder="Your name" required>
-        <textarea id="commentText" class="form-control mb-2" placeholder="Write a comment..." rows="3" required></textarea>
-        <button type="submit" class="btn btn-primary">Post Comment</button>
-      </form>
-      <ul id="commentList" class="list-group list-group-flush mt-3"></ul>
-    </div>
+    <h3>Your Watchlist</h3>
+    <div id="watchlistContainer" class="row"></div>
   </div>
 
   <script src="script.js"></script>
