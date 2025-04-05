@@ -85,3 +85,58 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
 console.log("Firebase Initialized:", app);
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+// Firebase config (already added above, make sure it's in the file)
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+const commentSection = document.getElementById("comment-section");
+const postComment = document.getElementById("postComment");
+const commentInput = document.getElementById("commentInput");
+const commentsList = document.getElementById("commentsList");
+
+let currentUser = null;
+
+loginBtn.addEventListener("click", () => {
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      console.log("User signed in");
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+});
+
+logoutBtn.addEventListener("click", () => {
+  signOut(auth).then(() => {
+    console.log("User signed out");
+  });
+});
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    currentUser = user;
+    commentSection.style.display = "block";
+    loginBtn.style.display = "none";
+    logoutBtn.style.display = "inline-block";
+  } else {
+    currentUser = null;
+    commentSection.style.display = "none";
+    loginBtn.style.display = "inline-block";
+    logoutBtn.style.display = "none";
+  }
+});
+
+postComment.addEventListener("click", () => {
+  const comment = commentInput.value.trim();
+  if (comment && currentUser) {
+    const commentHTML = `<p><strong>${currentUser.displayName}:</strong> ${comment}</p>`;
+    commentsList.innerHTML += commentHTML;
+    commentInput.value = "";
+  }
+});
