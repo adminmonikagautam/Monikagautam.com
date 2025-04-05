@@ -1,32 +1,42 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Discover trending movies, watch trailers, and add to your watchlist. Powered by TMDb and OMDb." />
-  <title>MonikaFlix | Trending Movies</title>
-  <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
+  <meta name="description" content="MonikaFlix - Discover trending movies, view details, watch trailers, and build your watchlist." />
+  <meta name="keywords" content="MonikaFlix, movies, tv shows, trailers, watchlist, streaming, TMDb, OMDb" />
+  <meta name="author" content="Monika Gautam" />
+  <title>MonikaFlix - Trending Movies</title>
+  <link rel="stylesheet" href="Style.css" />
+  <link rel="icon" href="logo.png" type="image/png">
 </head>
 <body>
   <header>
-    <h1>MonikaFlix</h1>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="watchlist.html">Watchlist</a>
-      <a href="login.html" id="login-link">Login</a>
-      <a href="signup.html" id="signup-link">Signup</a>
-      <a href="#" id="logout-link" style="display:none">Logout</a>
+      <a href="index.html" class="logo">MonikaFlix</a>
+      <div class="nav-links">
+        <a href="watchlist.html">Watchlist</a>
+        <a href="login.html" id="loginLink">Login</a>
+        <a href="#" id="logoutBtn" style="display:none;">Logout</a>
+      </div>
     </nav>
-  </header>  <main>
-    <section class="search-bar">
+    <div class="search-container">
       <input type="text" id="searchInput" placeholder="Search for movies..." />
-    </section><section class="movies">
-  <h2>Trending Movies</h2>
-  <div id="movieList" class="movie-grid"></div>
-</section>
+      <button id="searchBtn">Search</button>
+    </div>
+  </header>
 
-  </main>  <footer>
+  <main>
+    <h2>Trending Movies</h2>
+    <div id="movieList" class="movie-grid"></div>
+  </main>
+
+  <footer>
     <p>&copy; 2025 MonikaFlix. All rights reserved.</p>
   </footer>
+
+  <script src="firebase.js"></script>
+  <script src="auth.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
