@@ -3,51 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Movie World</title>
-  <meta name="description" content="Explore movies, ratings, and reviews like IMDb. Powered by TMDb API." />
+  <title>My MovieHub</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" type="image/png" href="logo.png" />
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 </head>
 <body>
   <header>
-    <div class="logo">MyMovieWorld</div>
-    <form id="searchForm">
-      <input type="text" id="searchInput" placeholder="Search for movies..." />
-      <button type="submit">Search</button>
-    </form>
+    <div class="logo">MovieHub</div>
+    <input type="text" id="searchInput" placeholder="Search for movies..." />
+    <button onclick="signIn()">Login with Google</button>
   </header>
 
   <main>
-    <h2>Trending Movies</h2>
-    <div id="moviesContainer" class="grid-container"></div>
+    <div id="movieList"></div>
   </main>
-</main>
 
-<!-- Login & Comment section yaha se start -->
-<div id="login-section">
-  <button id="loginBtn">Sign in with Google</button>
-  <button id="logoutBtn" style="display:none;">Logout</button>
-</div>
-
-<div id="comment-section" style="display:none;">
-  <h3>Leave a Comment</h3>
-  <textarea id="commentInput" placeholder="Write your comment..."></textarea>
-  <button id="postComment">Post</button>
-  <div id="commentsList"></div>
-</div>
-<!-- Yaha tak -->
   <footer>
-    <p>&copy; 2025 MyMovieWorld. All rights reserved.</p>
-    <div class="social-links">
-      <a href="#">Instagram</a> |
-      <a href="#">Twitter</a> |
-      <a href="#">YouTube</a>
-    </div>
+    <p>&copy; 2025 MovieHub. Follow us on 
+      <a href="#">Twitter</a>, <a href="#">Instagram</a>, <a href="#">Facebook</a>
+    </p>
   </footer>
 
   <script src="script.js"></script>
-</body>
-</html>
-<script type="module" src="script.js"></script>
 </body>
 </html>
