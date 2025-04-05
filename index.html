@@ -1,22 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Movie Explorer</title>
+  <title>Movie Explorer - Home</title>
+  <meta name="description" content="Explore trending movies, ratings, trailers, and OTT availability." />
+  <meta name="keywords" content="Movies, TV Shows, Ratings, Watchlist, Trailers, OTT" />
+  <meta property="og:title" content="Movie Explorer" />
+  <meta property="og:description" content="Search and explore movies with trailers and OTT links." />
+  <meta property="og:image" content="logo.png" />
   <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+  <script defer src="script.js"></script>
+</head><body>
   <header>
     <h1>Movie Explorer</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="watchlist.html">Watchlist</a>
+    </nav>
     <input type="text" id="searchInput" placeholder="Search for movies..." />
-  </header>
-
-  <main id="moviesContainer">
-    <h2>Trending Movies</h2>
-    <div id="movieList" class="grid"></div>
-  </main>
-
-  <script src="script.js"></script>
-</body>
-</html>
+  </header>  <main>
+    <section id="trending">
+      <h2>Trending Movies</h2>
+      <div id="movieList" class="movie-grid"></div>
+    </section>
+  </main>  <footer>
+    <p>&copy; 2025 Movie Explorer. All rights reserved.</p>
+  </footer>
+</body></html>
