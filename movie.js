@@ -1,18 +1,22 @@
-const movieId = localStorage.getItem("movieId");
-const apiKey = "71a0cb256ce6112edd9d3fd192bab592";
+const urlParams = new URLSearchParams(window.location.search);
+const movieId = urlParams.get("id");
+const tmdbKey = "7e14501d8b8b298c17837054b1eb2f7c";
+const omdbKey = "e3431b73";
 
-fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&append_to_response=videos`)
+const movieDetail = document.getElementById("movieDetail");
+
+fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${tmdbKey}`)
   .then(res => res.json())
   .then(movie => {
-    const div = document.getElementById("movieDetails");
-    const trailer = movie.videos.results.find(v => v.type === "Trailer" && v.site === "YouTube");
-
-    div.innerHTML = `
-      <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" />
-      <h1>${movie.title}</h1>
-      <p><strong>Release:</strong> ${movie.release_date}</p>
-      <p><strong>Rating:</strong> ${movie.vote_average} / 10</p>
-      <p>${movie.overview}</p>
-      ${trailer ? `<p><a href="https://www.youtube.com/watch?v=${trailer.key}" target="_blank">Watch Trailer</a></p>` : ""}
-    `;
+    fetch(`https://www.omdbapi.com/?t=${movie.title}&apikey=${omdbKey}`)
+      .then(res => res.json())
+      .then(omdb => {
+        movieDetail.innerHTML = `
+          <h1>${movie.title}</h1>
+          <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" />
+          <p>${movie.overview}</p>
+          <p><strong>IMDB Rating:</strong> ${omdb.imdbRating}</p>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/${omdb?.Trailer}" frameborder="0" allowfullscreen></iframe>
+        `;
+      });
   });
