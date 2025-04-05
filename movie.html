@@ -2,32 +2,106 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Movie and show details with trailers, streaming options, ratings, and reviews." />
-  <title>Movie Details</title>
+  <title>Movie Details - MonikaFlix</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
 </head>
 <body class="bg-dark text-white">
   <nav class="navbar navbar-expand-lg navbar-dark bg-black px-4">
     <a class="navbar-brand" href="index.html">MonikaFlix</a>
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item"><a class="nav-link" href="watchlist.html">Watchlist</a></li>
-        <li class="nav-item"><a class="nav-link" href="signup.html">Sign Up</a></li>
-        <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-      </ul>
-    </div>
-  </nav>  <main class="container py-4">
-    <div id="movieDetails" class="row"></div>
-    <div id="trailerContainer" class="mt-4"></div>
-    <div id="ottLinks" class="mt-3"></div>
-    <div class="mt-4">
-      <h4>User Comments</h4>
-      <form id="commentForm">
-        <textarea class="form-control mb-2" id="commentText" rows="2" placeholder="Write a comment..."></textarea>
-        <button class="btn btn-primary" type="submit">Post</button>
-      </form>
-      <ul id="commentList" class="list-group mt-3"></ul>
-    </div>
-  </main>  <script src="script.js"></script></body>
+    <a class="nav-link text-white ms-auto" href="watchlist.html">Watchlist</a>
+  </nav>  <main class="container py-4" id="movie-details">
+    <!-- Movie details will be injected here -->
+  </main>  <section class="container my-5">
+    <h3>Comments</h3>
+    <form id="commentForm" class="mb-3">
+      <div class="mb-2">
+        <input type="text" id="username" class="form-control" placeholder="Your name" required />
+      </div>
+      <div class="mb-2">
+        <textarea id="commentText" class="form-control" rows="3" placeholder="Write a comment..." required></textarea>
+      </div>
+      <button class="btn btn-primary" type="submit">Post Comment</button>
+    </form>
+    <ul id="commentsList" class="list-group"></ul>
+  </section>  <script>
+    const tmdbKey = "71a0cb256ce6112edd9d3fd192bab592";
+    const omdbKey = "19e3ac4e";
+
+    const params = new URLSearchParams(window.location.search);
+    const movieId = params.get("id");
+
+    async function loadMovieDetails() {
+      const res = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${tmdbKey}&append_to_response=videos`);
+      const movie = await res.json();
+
+      const omdbRes = await fetch(`https://www.omdbapi.com/?i=${movie.imdb_id}&apikey=${omdbKey}`);
+      const omdb = await omdbRes.json();
+
+      const trailer = movie.videos.results.find(v => v.type === "Trailer" && v.site === "YouTube");
+      const trailerEmbed = trailer ? `<iframe width="100%" height="315" src="https://www.youtube.com/embed/${trailer.key}" frameborder="0" allowfullscreen></iframe>` : "<p>No trailer available.</p>";
+
+      const html = `
+        <div class="row">
+          <div class="col-md-4">
+            <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" class="img-fluid rounded" />
+          </div>
+          <div class="col-md-8">
+            <h2>${movie.title}</h2>
+            <p><strong>Release:</strong> ${movie.release_date}</p>
+            <p><strong>Rating:</strong> ${movie.vote_average} / 10</p>
+            <p>${movie.overview}</p>
+            <p><strong>IMDb:</strong> ${omdb.imdbRating} / 10</p>
+            <p><strong>Genre:</strong> ${omdb.Genre}</p>
+            <p><strong>OTT:</strong> <a href="https://www.justwatch.com/in/search?q=${encodeURIComponent(movie.title)}" target="_blank">Check availability</a></p>
+          </div>
+        </div>
+        <div class="mt-4">
+          <h4>Trailer</h4>
+          ${trailerEmbed}
+        </div>
+      `;
+
+      document.getElementById("movie-details").innerHTML = html;
+    }
+
+    loadMovieDetails();
+
+    // Comment System
+    const commentForm = document.getElementById("commentForm");
+    const commentsList = document.getElementById("commentsList");
+
+    function loadComments() {
+      const saved = JSON.parse(localStorage.getItem(`comments-${movieId}`)) || [];
+      commentsList.innerHTML = "";
+      saved.forEach((c, i) => {
+        const li = document.createElement("li");
+        li.className = "list-group-item bg-secondary text-white d-flex justify-content-between align-items-center";
+        li.innerHTML = `<span><strong>${c.name}:</strong> ${c.text}</span>
+          <button class='btn btn-sm btn-danger' onclick='deleteComment(${i})'>Delete</button>`;
+        commentsList.appendChild(li);
+      });
+    }
+
+    function deleteComment(index) {
+      const saved = JSON.parse(localStorage.getItem(`comments-${movieId}`)) || [];
+      saved.splice(index, 1);
+      localStorage.setItem(`comments-${movieId}`, JSON.stringify(saved));
+      loadComments();
+    }
+
+    commentForm.addEventListener("submit", e => {
+      e.preventDefault();
+      const name = document.getElementById("username").value;
+      const text = document.getElementById("commentText").value;
+      const comment = { name, text };
+      const saved = JSON.parse(localStorage.getItem(`comments-${movieId}`)) || [];
+      saved.push(comment);
+      localStorage.setItem(`comments-${movieId}`, JSON.stringify(saved));
+      commentForm.reset();
+      loadComments();
+    });
+
+    loadComments();
+  </script></body>
 </html>
