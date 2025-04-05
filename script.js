@@ -1,56 +1,55 @@
-const firebaseConfig = {
-  apiKey: "AIzaSyB8q0-dKDSY9oxhEfnb4Nij30VZSFfNa34",
-  authDomain: "monikagautam-cfbc4.firebaseapp.com",
-  projectId: "monikagautam-cfbc4",
-  storageBucket: "monikagautam-cfbc4.appspot.com",
-  messagingSenderId: "225196060820",
-  appId: "1:225196060820:web:7d4002d2a4bcdf46c20481",
-  measurementId: "G-4KYML15KJK"
-};
+const tmdbKey = "71a0cb256ce6112edd9d3fd192bab592";
+const omdbKey = "19e3ac4e";
 
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
+const movieGrid = document.getElementById("movieGrid");
+const searchBox = document.getElementById("searchBox");
 
-function signIn() {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  auth.signInWithPopup(provider).then((result) => {
-    alert(`Welcome ${result.user.displayName}`);
+searchBox.addEventListener("input", () => {
+  const query = searchBox.value.trim();
+  if (query.length > 2) searchMovies(query);
+});
+
+async function searchMovies(query) {
+  const tmdbRes = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${tmdbKey}&query=${query}`);
+  const tmdbData = await tmdbRes.json();
+  movieGrid.innerHTML = "";
+  tmdbData.results.forEach(async (movie) => {
+    const omdbRes = await fetch(`https://www.omdbapi.com/?apikey=${omdbKey}&t=${movie.title}`);
+    const omdbData = await omdbRes.json();
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" />
+      <h4>${movie.title}</h4>
+      <p>IMDb: ${omdbData.imdbRating || "N/A"}</p>
+      <p>${omdbData.Genre || "Genre N/A"}</p>
+    `;
+    card.addEventListener("click", () => {
+      window.open(`https://www.imdb.com/title/${omdbData.imdbID}`, "_blank");
+    });
+    movieGrid.appendChild(card);
   });
 }
 
-const searchInput = document.getElementById("searchInput");
-searchInput.addEventListener("keyup", (e) => {
-  if (e.key === "Enter") {
-    fetchMovies(e.target.value);
-  }
-});
-
-async function fetchMovies(query) {
-  const movieList = document.getElementById("movieList");
-  movieList.innerHTML = "Loading...";
-  const url = `https://www.omdbapi.com/?apikey=19e3ac4e&s=${query}`;
-  const res = await fetch(url);
-  const data = await res.json();
-  if (data.Search) {
-    movieList.innerHTML = "";
-    data.Search.forEach(movie => {
-      movieList.innerHTML += `
-        <div class="movie-card">
-          <img src="${movie.Poster}" alt="${movie.Title}" />
-          <h3>${movie.Title}</h3>
-          <p>${movie.Year}</p>
-          <button onclick="showDetails('${movie.imdbID}')">Details</button>
-        </div>
-      `;
+function loadPopularMovies() {
+  fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${tmdbKey}`)
+    .then(res => res.json())
+    .then(data => {
+      movieGrid.innerHTML = "";
+      data.results.forEach(movie => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" />
+          <h4>${movie.title}</h4>
+          <p>Rating: ${movie.vote_average}</p>
+        `;
+        card.addEventListener("click", () => {
+          window.open(`https://www.themoviedb.org/movie/${movie.id}`, "_blank");
+        });
+        movieGrid.appendChild(card);
+      });
     });
-  } else {
-    movieList.innerHTML = "No movies found.";
-  }
 }
 
-async function showDetails(id) {
-  const res = await fetch(`https://www.omdbapi.com/?apikey=19e3ac4e&i=${id}&plot=full`);
-  const movie = await res.json();
-  alert(`Title: ${movie.Title}\nRating: ${movie.imdbRating}\nPlot: ${movie.Plot}`);
-}
+loadPopularMovies();
