@@ -2,41 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="MonikaFlix - Discover trending movies, view details, watch trailers, and build your watchlist." />
-  <meta name="keywords" content="MonikaFlix, movies, tv shows, trailers, watchlist, streaming, TMDb, OMDb" />
-  <meta name="author" content="Monika Gautam" />
-  <title>MonikaFlix - Trending Movies</title>
-  <link rel="stylesheet" href="Style.css" />
-  <link rel="icon" href="logo.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MonikaFlix - Home</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
   <header>
-    <nav>
-      <a href="index.html" class="logo">MonikaFlix</a>
-      <div class="nav-links">
-        <a href="watchlist.html">Watchlist</a>
-        <a href="login.html" id="loginLink">Login</a>
-        <a href="#" id="logoutBtn" style="display:none;">Logout</a>
-      </div>
-    </nav>
-    <div class="search-container">
-      <input type="text" id="searchInput" placeholder="Search for movies..." />
-      <button id="searchBtn">Search</button>
-    </div>
+    <img src="logo.png" alt="MonikaFlix Logo" class="logo">
+    <input type="text" id="searchInput" placeholder="Search for movies...">
+    <button id="logoutBtn">Logout</button>
   </header>
 
   <main>
     <h2>Trending Movies</h2>
-    <div id="movieList" class="movie-grid"></div>
+    <div id="trendingMovies" class="movie-grid"></div>
   </main>
 
-  <footer>
-    <p>&copy; 2025 MonikaFlix. All rights reserved.</p>
-  </footer>
-
-  <script src="firebase.js"></script>
-  <script src="auth.js"></script>
-  <script src="script.js"></script>
+  <script type="module" src="firebase.js"></script>
+  <script type="module" src="auth.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
