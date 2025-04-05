@@ -1,38 +1,52 @@
-const apiKey = '71a0cb256ce6112edd9d3fd192bab592'; // TMDb
-const apiURL = `https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}`;
-const imageBaseURL = 'https://image.tmdb.org/t/p/w500';
+const apiKey = "71a0cb256ce6112edd9d3fd192bab592";
+const movieList = document.getElementById("movieList");
+const searchInput = document.getElementById("searchInput");
 
-async function fetchTrendingMovies() {
-  try {
-    const res = await fetch(apiURL);
-    const data = await res.json();
-    const movies = data.results;
+// Load trending movies on page load
+window.onload = () => {
+  fetchTrendingMovies();
+};
 
-    const container = document.getElementById('movies-container');
-    container.innerHTML = '';
-
-    movies.forEach(movie => {
-      const card = document.createElement('div');
-      card.classList.add('movie-card');
-
-      card.innerHTML = `
-        <img src="${imageBaseURL + movie.poster_path}" alt="${movie.title}" />
-        <div class="movie-info">
-          <h3 class="movie-title">${movie.title}</h3>
-          <p class="movie-year">${movie.release_date?.slice(0, 4) || 'N/A'}</p>
-        </div>
-      `;
-
-      // Add click to open movie detail page
-      card.addEventListener('click', () => {
-        window.location.href = `movie.html?id=${movie.id}`;
-      });
-
-      container.appendChild(card);
-    });
-  } catch (error) {
-    console.error('Error fetching movies:', error);
+// Search as you type
+searchInput.addEventListener("input", () => {
+  const query = searchInput.value.trim();
+  if (query.length > 2) {
+    searchMovies(query);
+  } else {
+    fetchTrendingMovies();
   }
+});
+
+function fetchTrendingMovies() {
+  movieList.innerHTML = "<p>Loading...</p>";
+  fetch(`https://api.themoviedb.org/3/trending/movie/week?api_key=${apiKey}`)
+    .then(res => res.json())
+    .then(data => {
+      displayMovies(data.results);
+    });
 }
 
-fetchTrendingMovies();
+function searchMovies(query) {
+  fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}`)
+    .then(res => res.json())
+    .then(data => {
+      displayMovies(data.results);
+    });
+}
+
+function displayMovies(movies) {
+  movieList.innerHTML = "";
+  movies.forEach(movie => {
+    const div = document.createElement("div");
+    div.classList.add("movie-card");
+    div.innerHTML = `
+      <img src="https://image.tmdb.org/t/p/w300${movie.poster_path}" alt="${movie.title}" />
+      <h3>${movie.title}</h3>
+    `;
+    div.onclick = () => {
+      localStorage.setItem("movieID", movie.id);
+      window.location.href = "movie.html";
+    };
+    movieList.appendChild(div);
+  });
+}
