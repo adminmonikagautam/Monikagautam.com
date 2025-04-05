@@ -1,30 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Discover trending movies, search, and manage your watchlist.">
-  <meta name="keywords" content="movies, trending, TMDb, OMDb, watchlist, trailers, OTT">
-  <meta name="author" content="Monika Gautam">
-  <title>Movie Explorer - Home</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <meta name="description" content="Browse trending movies and shows. View trailers, ratings, reviews, and streaming links." />
+  <title>MonikaFlix - Home</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
 </head>
 <body class="bg-dark text-white">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
-    <a class="navbar-brand" href="index.html">Movie Explorer</a>
-    <div class="ml-auto">
-      <a href="watchlist.html" class="btn btn-outline-light btn-sm">Watchlist</a>
-      <a href="login.html" class="btn btn-outline-light btn-sm ml-2">Login</a>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-black px-4">
+    <a class="navbar-brand" href="index.html">MonikaFlix</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link" href="watchlist.html">Watchlist</a></li>
+        <li class="nav-item"><a class="nav-link" href="signup.html">Sign Up</a></li>
+        <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+      </ul>
+      <form class="d-flex" role="search">
+        <input id="searchInput" class="form-control me-2" type="search" placeholder="Search movies..." aria-label="Search">
+      </form>
     </div>
-  </nav>
-
-  <div class="container mt-4">
-    <h3>Trending Movies</h3>
-    <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search for movies...">
+  </nav>  <main class="container py-4">
+    <h2 class="mb-4">Trending Movies</h2>
     <div id="movieList" class="row"></div>
-  </div>
-
-  <script src="script.js"></script>
-</body>
+  </main>  <script src="script.js"></script></body>
 </html>
