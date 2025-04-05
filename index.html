@@ -2,32 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MonikaGautam - Movies & Series</title>
-  <meta name="description" content="Explore trending movies, series, ratings and trailers. A complete IMDb-style movie platform.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Latest movies, ratings, trailers, and more." />
+  <meta name="keywords" content="movies, tv shows, imdb clone, ratings, trailers, omdb, tmdb" />
+  <meta name="author" content="Monika Gautam" />
+  <title>MonikaMovies</title>
   <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
-  <script defer src="firebase.js"></script>
+  <link rel="icon" href="favicon.ico" />
 </head>
 <body>
   <header>
-    <div class="logo">MonikaGautam</div>
-    <nav>
-      <input type="text" id="searchBox" placeholder="Search movies or series..."/>
-      <button id="signInBtn">Login with Google</button>
-    </nav>
+    <h1>MonikaMovies</h1>
+    <input type="text" id="searchInput" placeholder="Search movies or series..." />
+    <button onclick="logout()">Logout</button>
   </header>
 
-  <main>
-    <section id="movieGrid" class="grid"></section>
-  </main>
+  <section id="login-section">
+    <button onclick="signInWithGoogle()">Sign in with Google</button>
+  </section>
+
+  <main id="movies-container"></main>
 
   <footer>
-    <p>&copy; 2025 MonikaGautam | Connect on 
-      <a href="#">Facebook</a>, 
-      <a href="#">Twitter</a>, 
-      <a href="#">Instagram</a>
-    </p>
+    <p>&copy; 2025 Monika Gautam. All rights reserved.</p>
+    <div class="social-links">
+      <a href="#">Facebook</a> |
+      <a href="#">Instagram</a> |
+      <a href="#">Twitter</a>
+    </div>
   </footer>
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+  <script src="firebase.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
