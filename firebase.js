@@ -1,50 +1,64 @@
-// Firebase SDK v9 Modular Version
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+// auth.js
+import { auth } from './firebase.js';
 import {
-  getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc,
-  updateDoc,
-  arrayUnion,
-  arrayRemove
-} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 
-// Your Firebase config (already provided by you)
-const firebaseConfig = {
-  apiKey: "AIzaSyDyJaSGUyH4kGUS9RHKF66Vnv0p95G4Mi4",
-  authDomain: "monikaflix.firebaseapp.com",
-  projectId: "monikaflix",
-  storageBucket: "monikaflix.appspot.com",
-  messagingSenderId: "1234567890",
-  appId: "1:1234567890:web:your_app_id_here"
-};
+// Signup
+const signupForm = document.getElementById('signup-form');
+if (signupForm) {
+  signupForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = signupForm['email'].value;
+    const password = signupForm['password'].value;
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((cred) => {
+        alert('Signed up successfully');
+        window.location.href = 'index.html';
+      })
+      .catch((err) => alert(err.message));
+  });
+}
 
-// Export Firebase utilities
-export {
-  auth,
-  db,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-  doc,
-  setDoc,
-  getDoc,
-  updateDoc,
-  arrayUnion,
-  arrayRemove
-};
+// Login
+const loginForm = document.getElementById('login-form');
+if (loginForm) {
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = loginForm['email'].value;
+    const password = loginForm['password'].value;
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((cred) => {
+        alert('Logged in successfully');
+        window.location.href = 'index.html';
+      })
+      .catch((err) => alert(err.message));
+  });
+}
+
+// Logout
+const logoutBtn = document.getElementById('logout-btn');
+if (logoutBtn) {
+  logoutBtn.addEventListener('click', () => {
+    signOut(auth).then(() => {
+      alert('Logged out');
+      window.location.href = 'index.html';
+    });
+  });
+}
+
+// Auth State Change
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log('User logged in:', user.email);
+    localStorage.setItem('user', JSON.stringify(user));
+  } else {
+    console.log('User logged out');
+    localStorage.removeItem('user');
+  }
+});
