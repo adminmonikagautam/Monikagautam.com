@@ -1,15 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Watchlist</title>
-  <link rel="stylesheet" href="styles.css"/>
+  <title>My Watchlist</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>My Watchlist</h1>
-  <div id="watchlistContainer"></div>
+  <header>
+    <h1>My Watchlist</h1>
+    <a href="index.html" style="color:#fff;">← Back</a>
+  </header>
 
-  <script src="watchlist.js"></script>
+  <main id="watchlistContainer" class="grid" style="padding: 20px;">
+  </main>
+
+  <script>
+    const container = document.getElementById("watchlistContainer");
+    const watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
+
+    if (watchlist.length === 0) {
+      container.innerHTML = "<p>Your watchlist is empty.</p>";
+    } else {
+      watchlist.forEach(movie => {
+        const div = document.createElement("div");
+        div.classList.add("movie-card");
+        div.innerHTML = `
+          <img src="https://image.tmdb.org/t/p/w300${movie.posterPath}" alt="${movie.title}" />
+          <h3>${movie.title}</h3>
+        `;
+        container.appendChild(div);
+      });
+    }
+  </script>
 </body>
 </html>
