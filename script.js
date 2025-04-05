@@ -1,68 +1,20 @@
-// Replace with your own TMDb API key
-const TMDB_API_KEY = "71a0cb256ce6112edd9d3fd192bab592";
-const BASE_URL = "https://api.themoviedb.org/3";
+// API Keys const TMDB_API_KEY = "71a0cb256ce6112edd9d3fd192bab592"; const OMDB_API_KEY = "19e3ac4e";
 
-// Fetch and render popular movies on page load
-document.addEventListener("DOMContentLoaded", () => {
-  fetchPopularMovies();
-});
+// DOM Elements const movieList = document.getElementById("movieList"); const searchInput = document.getElementById("searchInput"); const watchlistContainer = document.getElementById("watchlistContainer"); const movieDetails = document.getElementById("movieDetails");
 
-// Fetch Popular Movies
-function fetchPopularMovies() {
-  fetch(`${BASE_URL}/movie/popular?api_key=${TMDB_API_KEY}&language=en-US&page=1`)
-    .then((response) => response.json())
-    .then((data) => {
-      renderMovies(data.results);
-    })
-    .catch((error) => {
-      console.error("Error fetching popular movies:", error);
-    });
-}
+// TMDb Image Base const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
-// Search movies
-function searchMovies(query) {
-  fetch(`${BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}`)
-    .then((response) => response.json())
-    .then((data) => {
-      renderMovies(data.results);
-    })
-    .catch((error) => {
-      console.error("Error searching movies:", error);
-    });
-}
+// ------------------- HOME PAGE ------------------- if (movieList) { fetch(https://api.themoviedb.org/3/trending/movie/week?api_key=${TMDB_API_KEY}) .then((res) => res.json()) .then((data) => { displayMovies(data.results); }); }
 
-// Render movie cards
-function renderMovies(movies) {
-  const container = document.getElementById("movies-container");
-  container.innerHTML = "";
+// ------------------- SEARCH ------------------- if (searchInput) { searchInput.addEventListener("keyup", (e) => { if (e.key === "Enter") { const query = searchInput.value.trim(); if (query) { fetch(https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${query}) .then((res) => res.json()) .then((data) => { movieList.innerHTML = ""; displayMovies(data.results); }); } } }); }
 
-  movies.forEach((movie) => {
-    const card = document.createElement("div");
-    card.classList.add("movie-card");
-    card.innerHTML = `
-      <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
-      <h3>${movie.title}</h3>
-      <p>Rating: ${movie.vote_average}</p>
-    `;
+function displayMovies(movies) { movies.forEach((movie) => { const div = document.createElement("div"); div.className = "movie-card"; div.innerHTML = <img src="${movie.poster_path ? IMAGE_BASE_URL + movie.poster_path : 'https://via.placeholder.com/300x450'}" alt="${movie.title}"> <h3>${movie.title}</h3>; div.onclick = () => { window.location.href = movie.html?id=${movie.id}; }; movieList.appendChild(div); }); }
 
-    // Movie card click to open details
-    card.addEventListener("click", () => {
-      window.location.href = `movie.html?id=${movie.id}`;
-    });
+// ------------------- MOVIE DETAILS PAGE ------------------- if (movieDetails) { const params = new URLSearchParams(window.location.search); const movieId = params.get("id");
 
-    container.appendChild(card);
-  });
-}
+if (movieId) { fetch(https://api.themoviedb.org/3/movie/${movieId}?api_key=${TMDB_API_KEY}&append_to_response=videos,watch/providers) .then((res) => res.json()) .then((movie) => { fetch(https://www.omdbapi.com/?i=${movie.imdb_id}&apikey=${OMDB_API_KEY}) .then((res) => res.json()) .then((omdb) => { const trailer = movie.videos.results.find(v => v.type === "Trailer" && v.site === "YouTube"); const ott = movie["watch/providers"].results?.IN?.flatrate?.[0]; movieDetails.innerHTML = <img src="${movie.poster_path ? IMAGE_BASE_URL + movie.poster_path : 'https://via.placeholder.com/300x450'}" alt="${movie.title}" /> <h2>${movie.title}</h2> <p><strong>Release:</strong> ${movie.release_date}</p> <p><strong>Genres:</strong> ${movie.genres.map(g => g.name).join(', ')}</p> <p><strong>IMDb:</strong> ${omdb.imdbRating} / 10</p> <p><strong>Overview:</strong> ${movie.overview}</p> ${trailer ?<iframe src="https://www.youtube.com/embed/${trailer.key}" frameborder="0" allowfullscreen></iframe>: ""} ${ott ?<p><strong>Watch on:</strong> ${ott.provider_name}</p><a href="https://www.justwatch.com/in/movie/${movie.title.toLowerCase().replace(/ /g, '-')}">Watch Now</a>: "<p>Not available on OTT</p>"} <button onclick="addToWatchlist(${movie.id}, '${movie.title}', '${movie.poster_path}')">Add to Watchlist</button>; }); }); } else { movieDetails.innerHTML = "<p>Movie not found.</p>"; } }
 
-// Search bar handler
-const searchInput = document.getElementById("searchInput");
-if (searchInput) {
-  searchInput.addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
-      const query = searchInput.value.trim();
-      if (query) {
-        searchMovies(query);
-      }
-    }
-  });
-}
+// ------------------- WATCHLIST ------------------- function addToWatchlist(id, title, poster) { const movie = { id, title, poster }; const stored = JSON.parse(localStorage.getItem("watchlist")) || []; if (!stored.find(m => m.id === id)) { stored.push(movie); localStorage.setItem("watchlist", JSON.stringify(stored)); alert("Added to watchlist"); } else { alert("Already in watchlist"); } }
+
+if (watchlistContainer) { const watchlist = JSON.parse(localStorage.getItem("watchlist")) || []; watchlist.forEach(movie => { const div = document.createElement("div"); div.className = "movie-card"; div.innerHTML = <img src="${movie.poster ? IMAGE_BASE_URL + movie.poster : 'https://via.placeholder.com/300x450'}" alt="${movie.title}" /> <h3>${movie.title}</h3>; div.onclick = () => { window.location.href = movie.html?id=${movie.id}; }; watchlistContainer.appendChild(div); }); }
+
