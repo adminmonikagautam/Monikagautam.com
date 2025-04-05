@@ -3,22 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MonikaFlix - Home</title>
-  <link rel="stylesheet" href="style.css">
+  <title>MonikaFlix - Trending Movies</title>
+  <meta name="description" content="Explore trending movies and TV shows, see ratings, watch trailers, and track OTT availability on MonikaFlix.">
+  <meta name="keywords" content="movies, tv shows, imdb, trailers, ott, streaming, ratings, reviews, MonikaFlix">
+  <meta name="author" content="MonikaFlix">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="logo.png" type="image/png">
 </head>
 <body>
-
   <header>
-    <img src="logo.png" alt="MonikaFlix Logo" class="logo">
-    <input type="text" id="searchInput" placeholder="Search for movies...">
-    <button id="logoutBtn">Logout</button>
+    <div class="logo">
+      <img src="logo.png" alt="MonikaFlix Logo" />
+      <h1>MonikaFlix</h1>
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="watchlist.html">Watchlist</a>
+      <a href="login.html">Login</a>
+    </nav>
   </header>
 
   <main>
-    <h2>Trending Movies</h2>
-    <div id="trendingMovies" class="movie-grid"></div>
+    <h2>Trending This Week</h2>
+    <div id="movie-container" class="movie-grid"></div>
   </main>
 
+  <footer>
+    <p>&copy; 2025 MonikaFlix. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
   <script type="module" src="firebase.js"></script>
   <script type="module" src="auth.js"></script>
   <script type="module" src="script.js"></script>
