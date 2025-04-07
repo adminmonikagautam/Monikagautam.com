@@ -1,153 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>MonikaFlix | Home</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MonikaFlix - Home</title>
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom, #121212, #1e1e1e);
-      color: white;
+      background-color: #121212;
+      color: #e0e0e0;
+      line-height: 1.6;
     }
     header {
       background: #1e1e1e;
-      padding: 20px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      padding: 20px 40px;
+      text-align: center;
+      border-bottom: 2px solid #ff0055;
     }
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-      color: #e50914;
+    header h1 {
+      margin: 0;
+      color: #ff0055;
+    }
+    nav {
+      text-align: center;
+      margin: 20px 0;
     }
     nav a {
-      margin-left: 20px;
-      color: white;
+      color: #ff4081;
       text-decoration: none;
-      font-size: 16px;
+      margin: 0 15px;
+      font-weight: bold;
     }
     nav a:hover {
-      color: #e50914;
+      text-decoration: underline;
     }
-    main {
-      text-align: center;
-      padding: 60px 20px 40px;
-    }
-    h1 {
-      font-size: 48px;
-      margin-bottom: 10px;
-    }
-    p {
-      font-size: 18px;
-      color: #ccc;
-    }
-
-    /* Contact Form Styling */
-    .contact-section {
-      background-color: #222;
-      padding: 40px 20px;
-      border-top: 2px solid #e50914;
-    }
-    .contact-container {
-      max-width: 500px;
+    .section {
+      padding: 40px;
+      max-width: 900px;
       margin: auto;
-      background: #1e1e1e;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
     }
-    .contact-container h2 {
+    .section h2 {
+      color: #ff0055;
       margin-bottom: 20px;
       text-align: center;
     }
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      border-radius: 6px;
-      border: none;
-      background: #2c2c2c;
-      color: white;
+    .about-blog {
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255, 0, 90, 0.2);
     }
-    input:focus, textarea:focus {
-      outline: none;
-      background: #3a3a3a;
-    }
-    button {
-      margin-top: 15px;
-      width: 100%;
-      padding: 12px;
-      border: none;
-      background: #e50914;
-      color: white;
-      font-weight: bold;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .contact-info {
+    .date {
       text-align: center;
-      margin-top: 20px;
+      color: #888;
+      font-size: 0.9em;
+      margin-bottom: 25px;
     }
-    .contact-info a {
-      color: #1dbf73;
-      text-decoration: none;
-      font-size: 18px;
-    }
-
     footer {
-      background: #111;
       text-align: center;
-      padding: 15px;
+      padding: 20px;
+      background: #1e1e1e;
       color: #888;
     }
-
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 32px;
-      }
-      .logo {
-        font-size: 20px;
-      }
+    hr {
+      border: none;
+      border-top: 1px solid #333;
+      margin: 30px 0;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="logo">MonikaFlix</div>
-    <nav>
-      <a href="#contact">Contact</a>
-    </nav>
+    <h1>MonikaFlix</h1>
+    <p>Movies, Stories & Memories</p>
   </header>
 
-  <main>
-    <h1>Welcome to MonikaFlix</h1>
-    <p>Your ultimate movie & entertainment guide.</p>
-  </main>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#about">From the Creator</a>
+  </nav>
 
-  <!-- Embedded Contact Form -->
-  <section class="contact-section" id="contact">
-    <div class="contact-container">
-      <h2>Contact Us</h2>
-      <form>
-        <input type="text" placeholder="Your Name" required>
-        <input type="email" placeholder="Your Email" required>
-        <textarea rows="5" placeholder="Your Message" required></textarea>
-        <button type="submit">Send Message</button>
-      </form>
-      <div class="contact-info">
-        <p>Or message us on WhatsApp: 
-          <a href="https://wa.me/971544669047" target="_blank">+971-544669047</a>
-        </p>
-      </div>
+  <div id="home" class="section">
+    <h2>Welcome to MonikaFlix</h2>
+    <p>
+      Explore trending movies, your personal watchlist, and stories from the heart. This isn’t just a site – it’s a piece of emotion, memories, and cinema.
+    </p>
+  </div>
+
+  <div id="about" class="section">
+    <h2>From the Creator</h2>
+    <div class="about-blog">
+      <div class="date">Updated on April 7, 2025</div>
+
+      <h3 style="color:#ff4081;">**Note:** This website is currently under development.</h3>
+      <p>
+        MonikaFlix is a work in progress — features are being built, designs are evolving, and the experience is being shaped day by day. Thank you for visiting during its early stage.
+      </p>
+
+      <hr />
+
+      <p>
+        There’s something timeless about a good story.
+      </p>
+      <p>
+        Maybe it’s the way a scene sticks with us long after the credits roll. Or the way a character reminds us of someone we knew — or someone we once were.
+      </p>
+      <p>
+        Movies aren’t just entertainment. They’re echoes of real life — dreams we live through a screen, emotions we didn’t know we needed to feel.
+      </p>
+      <p>
+        That’s why I created MonikaFlix.
+        A space not just to find the latest films, but to feel something real. A place where stories live, breathe, and connect us — even when we don’t say a word.
+      </p>
+      <p>
+        Because behind every screen, there’s a heart watching.  
+        And that’s where the real movie begins.
+      </p>
+
+      <p style="text-align:right;"><i>— MonikaFlix Creator</i></p>
     </div>
-  </section>
+  </div>
 
   <footer>
-    &copy; 2025 MonikaFlix | All rights reserved
+    &copy; 2025 MonikaFlix. Built with vision, not memories.
   </footer>
 
 </body>
