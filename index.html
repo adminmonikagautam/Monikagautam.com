@@ -2,276 +2,225 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MonikaFlix - Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MonikaFlix - Movies and More</title>
 
-  <!-- Include Font Awesome for Instagram Icon -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Font Awesome CDN for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-  <!-- Inline CSS with Navy Blue Theme -->
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background-color: #001f3d; /* Navy Blue Background */
-      color: #e0e0e0;
-      line-height: 1.6;
+      background-color: #141414;
+      color: #fff;
     }
+
     header {
-      background: #003366; /* Dark Navy Blue */
-      padding: 20px 40px;
+      background-color: #000;
+      padding: 20px;
       text-align: center;
-      border-bottom: 2px solid #4c9be3; /* Light Blue */
+      border-bottom: 2px solid #e50914;
     }
+
     header h1 {
       margin: 0;
-      color: #4c9be3; /* Light Blue for Header */
+      color: #e50914;
     }
-    nav {
-      text-align: center;
-      margin: 20px 0;
-    }
-    nav a {
-      color: #4c9be3; /* Light Blue for Links */
-      text-decoration: none;
-      margin: 0 15px;
-      font-weight: bold;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
+
     .section {
-      padding: 40px;
-      max-width: 900px;
-      margin: auto;
-    }
-    .section h2 {
-      color: #4c9be3; /* Light Blue Headings */
-      margin-bottom: 20px;
+      padding: 40px 20px;
       text-align: center;
     }
-    .about-blog {
-      background: #003366; /* Dark Navy Blue for Blog */
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(76, 155, 227, 0.2); /* Light Blue Shadow */
-    }
-    .date {
-      text-align: center;
-      color: #888;
-      font-size: 0.9em;
-      margin-bottom: 25px;
-    }
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #003366; /* Dark Navy Blue Footer */
-      color: #888;
-    }
-    hr {
-      border: none;
-      border-top: 1px solid #4c9be3; /* Light Blue for Border */
+
+    .icons {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
       margin: 30px 0;
     }
 
-    form {
-      background-color: #00244d; /* Darker Navy for Form Background */
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 15px rgba(76, 155, 227, 0.3);
+    .icons a {
+      font-size: 32px;
+      transition: 0.3s ease;
     }
 
-    form input, form textarea {
-      background-color: #003366; /* Darker Navy Input Fields */
-      border: none;
-      color: #e0e0e0;
-      padding: 10px;
-      width: 100%;
-      border-radius: 5px;
+    .icons a:hover {
+      opacity: 0.7;
     }
 
-    form button {
-      background-color: #4c9be3; /* Light Blue Button */
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      cursor: pointer;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-
-    form button:hover {
-      background-color: #357ab7; /* Darker Blue on Hover */
-    }
-
-    .movie-cards {
+    .movie-grid {
       display: flex;
-      justify-content: space-between;
       flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
     }
 
     .movie-card {
-      background: #00244d;
-      border-radius: 8px;
+      width: 180px;
+      background-color: #222;
+      border-radius: 10px;
       overflow: hidden;
-      width: 22%;
-      margin-bottom: 20px;
-      cursor: pointer;
-      box-shadow: 0 0 15px rgba(76, 155, 227, 0.3);
-      transition: transform 0.3s;
-    }
-
-    .movie-card:hover {
-      transform: scale(1.05);
+      text-align: left;
     }
 
     .movie-card img {
       width: 100%;
-      height: auto;
+      height: 270px;
+      object-fit: cover;
+    }
+
+    .movie-card div {
+      padding: 10px;
     }
 
     .movie-card h3 {
-      padding: 10px;
-      color: #4c9be3;
-      text-align: center;
+      font-size: 16px;
+      margin: 5px 0;
     }
 
-    .instagram-link {
-      display: block;
-      text-align: center;
-      margin-top: 20px;
-      font-size: 24px;
+    .movie-card a {
       color: #4c9be3;
       text-decoration: none;
     }
 
-    .instagram-link i {
-      margin-right: 8px;
+    .movie-card a:hover {
+      text-decoration: underline;
     }
 
+    .contact-form {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .contact-form button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #e50914;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    footer {
+      padding: 20px;
+      text-align: center;
+      font-size: 14px;
+      color: #888;
+    }
   </style>
 </head>
 <body>
 
   <header>
     <h1>MonikaFlix</h1>
-    <p>Movies, Stories & Memories</p>
+    <p>This website is currently under development. Thank you for visiting!</p>
   </header>
 
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#about">From the Creator</a>
-    <a href="#contact">Contact</a>
-  </nav>
-
-  <div id="home" class="section">
-    <h2>Welcome to MonikaFlix</h2>
-    <p>
-      Explore trending movies, your personal watchlist, and stories from the heart. This isn’t just a site – it’s a piece of emotion, memories, and cinema.
-    </p>
-  </div>
-
-  <div id="about" class="section">
-    <h2>From the Creator</h2>
-    <div class="about-blog">
-      <div class="date">Updated on April 7, 2025</div>
-
-      <h3 style="color:#ff4081;">**Note:** This website is currently under development.</h3>
-      <p>
-        MonikaFlix is a work in progress — features are being built, designs are evolving, and the experience is being shaped day by day. Thank you for visiting during its early stage.
-      </p>
-
-      <hr />
-
-      <p>
-        There’s something timeless about a good story...
-      </p>
-      <p>
-        Maybe it’s the way a scene sticks with us long after the credits roll. Or the way a character reminds us of someone we knew...
-      </p>
-
-      <p style="text-align:right;"><i>— MonikaFlix Creator</i></p>
+  <!-- Social Icons -->
+  <div class="section">
+    <h2>Connect with Me</h2>
+    <div class="icons">
+      <a href="https://www.instagram.com/itsmgamit/" target="_blank" style="color: #e1306c;">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="mailto:amitsharma.webi@gmail.com" style="color: #4c9be3;">
+        <i class="fas fa-envelope"></i>
+      </a>
+      <a href="tel:+971544669047" style="color: #34c759;">
+        <i class="fas fa-phone"></i>
+      </a>
     </div>
   </div>
 
-  <!-- Movie Section -->
-  <div id="movies" class="section">
-    <h2>Trending Movies</h2>
-    <div class="movie-cards" id="movie-cards">
-      <!-- Movies will be dynamically added here -->
+  <!-- Static Movie Section -->
+  <div class="section">
+    <h2>Movies That Match My Journey</h2>
+    <div class="movie-grid">
+      <div class="movie-card">
+        <img src="https://image.tmdb.org/t/p/w300/6FfCtAuVAW8XJjZ7eWeLibRLWTw.jpg" alt="The Fault in Our Stars">
+        <div>
+          <h3>The Fault in Our Stars</h3>
+          <a href="https://www.youtube.com/watch?v=9ItBvH5J6ss" target="_blank">Watch Trailer</a>
+        </div>
+      </div>
+      <div class="movie-card">
+        <img src="https://image.tmdb.org/t/p/w300/5c0ovjT41KnYIHYuF4AWsTe3sKh.jpg" alt="500 Days of Summer">
+        <div>
+          <h3>500 Days of Summer</h3>
+          <a href="https://www.youtube.com/watch?v=PsD0NpFSADM" target="_blank">Watch Trailer</a>
+        </div>
+      </div>
+      <div class="movie-card">
+        <img src="https://image.tmdb.org/t/p/w300/3uG3aOhEzFCjcQulsJQiAzLSrw8.jpg" alt="La La Land">
+        <div>
+          <h3>La La Land</h3>
+          <a href="https://www.youtube.com/watch?v=0pdqf4P9MB8" target="_blank">Watch Trailer</a>
+        </div>
+      </div>
+      <div class="movie-card">
+        <img src="https://image.tmdb.org/t/p/w300/6DrHO1jr3qVrViUO6s6kFiAGM7.jpg" alt="Tamasha">
+        <div>
+          <h3>Tamasha</h3>
+          <a href="https://www.youtube.com/watch?v=o-e5eWVCzx8" target="_blank">Watch Trailer</a>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Contact Form Section at the Bottom -->
-  <div id="contact" class="section">
-    <h2>Contact Us</h2>
-    <form action="mailto:your-email@example.com" method="POST" enctype="text/plain">
-      <label for="name">Your Name:</label>
-      <input type="text" id="name" name="name" required><br><br>
+  <!-- Dynamic TMDb Movies -->
+  <div class="section">
+    <h2>Trending Now</h2>
+    <div id="tmdb-movies" class="movie-grid"></div>
+  </div>
 
-      <label for="email">Your Email:</label>
-      <input type="email" id="email" name="email" required><br><br>
-
-      <label for="message">Your Message:</label><br>
-      <textarea id="message" name="message" rows="4" required></textarea><br><br>
-
+  <!-- Contact Form -->
+  <div class="section">
+    <h2>Contact Me</h2>
+    <form action="mailto:amitsharma.webi@gmail.com" method="POST" enctype="text/plain" class="contact-form">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
       <button type="submit">Send Message</button>
     </form>
-
-    <!-- Instagram Link -->
-    <a href="https://www.instagram.com/itsmgamit/" target="_blank" class="instagram-link">
-      <i class="fab fa-instagram"></i> Follow me on Instagram
-    </a>
   </div>
 
   <footer>
-    &copy; 2025 MonikaFlix. Built with vision, not memories.
+    &copy; 2025 MonikaFlix. All rights reserved.
   </footer>
 
-  <!-- Include External JavaScript -->
+  <!-- JS for TMDb Movies -->
   <script>
-    // TMDb API Key
-    const tmdbApiKey = '71a0cb256ce6112edd9d3fd192bab592';
-    const tmdbBaseUrl = 'https://api.themoviedb.org/3';
-    
-    // Fetch Movies from TMDb API
-    async function fetchMovies() {
-      const response = await fetch(`${tmdbBaseUrl}/discover/movie?api_key=${tmdbApiKey}&sort_by=popularity.desc&page=1`);
-      const data = await response.json();
-      displayMovies(data.results);
-    }
+    const apiKey = "71a0cb256ce6112edd9d3fd192bab592";
+    const tmdbURL = `https://api.themoviedb.org/3/trending/movie/day?api_key=${apiKey}`;
 
-    // Display Movies on Page
-    function displayMovies(movies) {
-      const movieContainer = document.getElementById('movie-cards');
-      movieContainer.innerHTML = '';
-      
-      movies.slice(0, 4).forEach(movie => {
-        const movieCard = document.createElement('div');
-        movieCard.classList.add('movie-card');
-        movieCard.onclick = () => showMovieDetails(movie.id);
+    fetch(tmdbURL)
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById('tmdb-movies');
+        data.results.slice(0, 6).forEach(movie => {
+          const card = document.createElement('div');
+          card.className = 'movie-card';
+          card.innerHTML = `
+            <img src="https://image.tmdb.org/t/p/w300${movie.poster_path}" alt="${movie.title}">
+            <div>
+              <h3>${movie.title}</h3>
+              <a href="https://www.youtube.com/results?search_query=${movie.title}+trailer" target="_blank">Watch Trailer</a>
+            </div>`;
+          container.appendChild(card);
+        });
+      })
+      .catch(error => console.error("Error fetching TMDb data:", error));
+  </script>
 
-        movieCard.innerHTML = `
-          <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
-          <h3>${movie.title}</h3>
-        `;
-        
-        movieContainer.appendChild(movieCard);
-      });
-    }
-
-    // Show Movie Details and Trailer
-    async function showMovieDetails(movieId) {
-      const response = await fetch(`${tmdbBaseUrl}/movie/${movieId}?api_key=${tmdbApiKey}`);
-      const movieData = await response.json();
-      
-      const trailerResponse = await fetch(`${tmdbBaseUrl}/movie/${movieId}/videos?api_key=${tmdbApiKey}`);
-      const trailerData = await trailerResponse.json();
-      
-      const trailerKey = trailerData.results.length > 0 ? trailerData.results[0].key : null;
-      
-      alert(`Movie: ${movieData.title}\n\nOverview: ${movieData.overview}\nTrailer: https://www.youtube.com/watch?v=${trailerKey}`);
-    }
-
-    // Call fetchMovies to load movies on page load
-    fetch
+</body>
+</html>
