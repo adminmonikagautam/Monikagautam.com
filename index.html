@@ -6,19 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      background-color: #121212;
-      color: white;
-      font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #121212, #1e1e1e);
+      color: white;
     }
     header {
       background: #1e1e1e;
+      padding: 20px 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px 30px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.4);
     }
     .logo {
       font-size: 24px;
@@ -35,27 +33,93 @@
       color: #e50914;
     }
     main {
-      padding: 40px;
       text-align: center;
+      padding: 60px 20px 40px;
     }
-    footer {
+    h1 {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 18px;
+      color: #ccc;
+    }
+
+    /* Contact Form Styling */
+    .contact-section {
+      background-color: #222;
+      padding: 40px 20px;
+      border-top: 2px solid #e50914;
+    }
+    .contact-container {
+      max-width: 500px;
+      margin: auto;
       background: #1e1e1e;
-      text-align: center;
-      padding: 20px;
-      color: #999;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
     }
-    footer a {
+    .contact-container h2 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: none;
+      background: #2c2c2c;
+      color: white;
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      background: #3a3a3a;
+    }
+    button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      background: #e50914;
+      color: white;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .contact-info {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .contact-info a {
       color: #1dbf73;
       text-decoration: none;
+      font-size: 18px;
+    }
+
+    footer {
+      background: #111;
+      text-align: center;
+      padding: 15px;
+      color: #888;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 32px;
+      }
+      .logo {
+        font-size: 20px;
+      }
     }
   </style>
 </head>
 <body>
+
   <header>
     <div class="logo">MonikaFlix</div>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="contact.html">Contact</a> <!-- Contact page link added -->
+      <a href="#contact">Contact</a>
     </nav>
   </header>
 
@@ -64,8 +128,27 @@
     <p>Your ultimate movie & entertainment guide.</p>
   </main>
 
+  <!-- Embedded Contact Form -->
+  <section class="contact-section" id="contact">
+    <div class="contact-container">
+      <h2>Contact Us</h2>
+      <form>
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <textarea rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+      <div class="contact-info">
+        <p>Or message us on WhatsApp: 
+          <a href="https://wa.me/971544669047" target="_blank">+971-544669047</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
   <footer>
-    <p>&copy; 2025 MonikaFlix | WhatsApp: <a href="https://wa.me/971544669047">+971-544669047</a></p>
+    &copy; 2025 MonikaFlix | All rights reserved
   </footer>
+
 </body>
 </html>
