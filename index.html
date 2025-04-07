@@ -2,47 +2,70 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>MonikaFlix | Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IMDb Clone</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background-color: #121212;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #1e1e1e;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #e50914;
+    }
+    nav a {
+      margin-left: 20px;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+    }
+    nav a:hover {
+      color: #e50914;
+    }
+    main {
+      padding: 40px;
+      text-align: center;
+    }
+    footer {
+      background: #1e1e1e;
+      text-align: center;
+      padding: 20px;
+      color: #999;
+    }
+    footer a {
+      color: #1dbf73;
+      text-decoration: none;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1>IMDb Clone</h1>
+    <div class="logo">MonikaFlix</div>
     <nav>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Movies</a></li>
-        <li><a href="#">TV Shows</a></li>
-        <li><a href="#">Celebrities</a></li>
-      </ul>
+      <a href="index.html">Home</a>
+      <a href="contact.html">Contact</a> <!-- Contact page link added -->
     </nav>
   </header>
-  
-  <main>
-    <section id="featured-movie">
-      <h2>Featured Movie</h2>
-      <img src="assets/images/featured.jpg" alt="Featured Movie">
-      <p>Details about the movie go here...</p>
-    </section>
 
-    <section id="movie-list">
-      <h2>Popular Movies</h2>
-      <div class="movie-card">
-        <img src="assets/images/movie1.jpg" alt="Movie Title">
-        <h3>Movie Title</h3>
-      </div>
-      <div class="movie-card">
-        <img src="assets/images/movie2.jpg" alt="Movie Title">
-        <h3>Movie Title</h3>
-      </div>
-    </section>
+  <main>
+    <h1>Welcome to MonikaFlix</h1>
+    <p>Your ultimate movie & entertainment guide.</p>
   </main>
 
   <footer>
-    <p>IMDb Clone - All Rights Reserved</p>
+    <p>&copy; 2025 MonikaFlix | WhatsApp: <a href="https://wa.me/971544669047">+971-544669047</a></p>
   </footer>
-
-  <script src="script.js"></script>
 </body>
 </html>
