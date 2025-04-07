@@ -57,7 +57,7 @@
     }
 
     .movie-card {
-      width: 180px;
+      width: 220px;
       background-color: #222;
       border-radius: 10px;
       overflow: hidden;
@@ -86,6 +86,37 @@
 
     .movie-card a:hover {
       text-decoration: underline;
+    }
+
+    .movie-details {
+      background-color: #333;
+      border-radius: 5px;
+      padding: 15px;
+      margin-top: 10px;
+    }
+
+    .movie-details h4 {
+      margin: 5px 0;
+    }
+
+    .movie-details .cast,
+    .movie-details .ratings,
+    .movie-details .release-date,
+    .movie-details .genres {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+
+    .movie-details .comment-section {
+      margin-top: 10px;
+    }
+
+    .movie-details textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: none;
     }
 
     .contact-form {
@@ -139,6 +170,9 @@
       <a href="tel:+971544669047" style="color: #34c759;">
         <i class="fas fa-phone"></i>
       </a>
+      <a href="https://wa.me/971544669047" target="_blank" style="color: #25D366;">
+        <i class="fab fa-whatsapp"></i>
+      </a>
     </div>
   </div>
 
@@ -146,6 +180,7 @@
   <div class="section">
     <h2>Movies That Match My Journey</h2>
     <div class="movie-grid">
+      <!-- Example Static Movie -->
       <div class="movie-card">
         <img src="https://image.tmdb.org/t/p/w300/6FfCtAuVAW8XJjZ7eWeLibRLWTw.jpg" alt="The Fault in Our Stars">
         <div>
@@ -153,27 +188,7 @@
           <a href="https://www.youtube.com/watch?v=9ItBvH5J6ss" target="_blank">Watch Trailer</a>
         </div>
       </div>
-      <div class="movie-card">
-        <img src="https://image.tmdb.org/t/p/w300/5c0ovjT41KnYIHYuF4AWsTe3sKh.jpg" alt="500 Days of Summer">
-        <div>
-          <h3>500 Days of Summer</h3>
-          <a href="https://www.youtube.com/watch?v=PsD0NpFSADM" target="_blank">Watch Trailer</a>
-        </div>
-      </div>
-      <div class="movie-card">
-        <img src="https://image.tmdb.org/t/p/w300/3uG3aOhEzFCjcQulsJQiAzLSrw8.jpg" alt="La La Land">
-        <div>
-          <h3>La La Land</h3>
-          <a href="https://www.youtube.com/watch?v=0pdqf4P9MB8" target="_blank">Watch Trailer</a>
-        </div>
-      </div>
-      <div class="movie-card">
-        <img src="https://image.tmdb.org/t/p/w300/6DrHO1jr3qVrViUO6s6kFiAGM7.jpg" alt="Tamasha">
-        <div>
-          <h3>Tamasha</h3>
-          <a href="https://www.youtube.com/watch?v=o-e5eWVCzx8" target="_blank">Watch Trailer</a>
-        </div>
-      </div>
+      <!-- Add More Static Movies Here -->
     </div>
   </div>
 
@@ -215,7 +230,19 @@
             <div>
               <h3>${movie.title}</h3>
               <a href="https://www.youtube.com/results?search_query=${movie.title}+trailer" target="_blank">Watch Trailer</a>
-            </div>`;
+            </div>
+            <div class="movie-details">
+              <h4>Details</h4>
+              <div class="ratings">Rating: ${movie.vote_average} / 10</div>
+              <div class="release-date">Release Date: ${movie.release_date}</div>
+              <div class="genres">Genres: ${movie.genre_ids.join(', ')}</div>
+              <div class="cast">Cast: Not Available in API</div> <!-- Need to fetch cast separately -->
+              <div class="comment-section">
+                <textarea placeholder="Add a comment..."></textarea>
+                <button>Post Comment</button>
+              </div>
+            </div>
+          `;
           container.appendChild(card);
         });
       })
